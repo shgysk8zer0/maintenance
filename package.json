@@ -1,0 +1,25 @@
+{
+  "name": "maintenance",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "python -m SimpleHTTPServer 8000",
+    "build": "npm run build:icons",
+    "build:icons": "svg-sprite-generate -c img/icons.csv -o img/icons.svg",
+    "lint:js": "eslint js/",
+    "lint:css": "stylelint css/",
+    "test": "npm run lint:js && npm run lint:css"
+  },
+  "author": "Chris Zuber <shgysk8zer0@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-plugin-async-await": "0.0.0",
+    "eslint-plugin-babel": "^5.2.0",
+    "stylelint": "^9.5.0",
+    "svgo": "^1.0.5"
+  },
+  "dependencies": {
+    "svg-sprite-generator": "0.0.7"
+  }
+}
