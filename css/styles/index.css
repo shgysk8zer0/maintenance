@@ -6,3 +6,7 @@
 @import url("../core-css/class-rules.css");
 @import url("../animate.css/animate.css");
 @import url("../core-css/animations.css");
+
+dialog {
+	border: none;
+}

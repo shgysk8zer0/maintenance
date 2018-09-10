@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="no-js">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Maintenance</title>
+		<script type="module" src="js/index.js" async=""></script>
+		<link rel="stylesheet" href="css/styles/index.css" />
+		<link rel="icon" type="image/svg+xml" sizes="any" href="img/adwaita-icons/categories/preferences-system.svg" />
+	</head>
+	<body class="background-primary color default font-main border-box smooth-scroll">
+		<login-form action="data/user.json" method="POST"></login-form>
+		<template id="login-template">
+			<dialog>
+				<form name="login">
+					<fieldset>
+						<legend>Login</legend>
+						<label class="block">
+							<input type="email" name="email" placeholder="user@example.com" required="" />
+						</label>
+						<label class="block">
+							<input type="password" name="password" placeholder="********" minlength="8" required="" />
+						</label>
+					</fieldset>
+					<button type="submit" class="btn btn-confirm">Submit</button>
+					<button type="reset" class="btn btn-reject">Cancel</button>
+				</form>
+			</dialog>
+		</template>
+		<template id="maintenance-item-template">
+			<style>
+				button {
+					color: var(--button-color);
+					background: var(--button-background);
+					border: var(--button-border);
+					padding: var(--button-padding);
+					border-radius: var(--button-border-radius);
+					cursor: pointer;
+				}
+
+				button:disabled {
+					color: var(--button-disabled-color);
+					background: var(--button-disabled-background);
+					cursor: not-allowed;
+				}
+			</style>
+			<b><slot name="description">No Description</slot></b>
+			<span>Due on: <slot name="due">No due date set</slot></span>
+			<meter min="" high="" max="" value=""></meter>
+			<button type="button">Done</button>
+		</template>
+	</body>
+</html>

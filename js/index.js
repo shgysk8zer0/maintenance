@@ -1,6 +1,37 @@
-import {$, ready} from './std-js/functions.js';
+import './std-js/deprefixer.js';
+import './std-js/shims.js';
+import {ready, notify} from './std-js/functions.js';
+import LoginForm from './components/login-form.js';
+import MaintenanceTable from './components/maintenance-table.js';
+
+customElements.define('login-form', LoginForm);
+customElements.define('maintenance-table', MaintenanceTable);
 
 ready().then(async () => {
-	const $doc = $(document.documentElement);
-	$doc.replaceClass('no-js', 'js');
-});
+	document.documentElement.classList.replace('no-js', 'js');
+	await customElements.whenDefined('login-form');
+	const data = await document.querySelector('login-form').login();
+	const resp = await fetch(data.maintenance);
+	const json = await resp.json();
+
+	if (Array.isArray(json) && json.length !== 0) {
+		const notification = await notify('Maintenance pending', {
+			body: 'Click here for more details',
+			icon: new URL('img/adwaita-icons/categories/preferences-system.svg', document.baseURI),
+			lang: 'en',
+			dir: 'ltr',
+			requireInteraction: false,
+			data: {
+				items: json,
+			},
+		});
+
+		notification.addEventListener('click', event => {
+			const table = new MaintenanceTable(event.target.data.items);
+			table.classList.add('block');
+			document.body.append(table);
+		}, {
+			once: true,
+		});
+	}
+}).catch(console.error);

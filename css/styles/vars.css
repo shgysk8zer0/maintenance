@@ -2,4 +2,23 @@
 	--primary-color: #fafafa;
 	--default-color: #343434;
 	--alt-color: #fefefe;
+	--button-background: rgba(81, 105, 243, 1);
+	--button-color: var(--alt-color);
+	--button-border: none;
+	--button-border-radius: 6px;
+	--button-padding: 0.3em 0.8em;
+	--button-active-background: rgba(59, 59, 191, 1);
+	--button-disabled-background: rgba(157, 157, 157, 1);
+	--button-active-border: var(--button-border);
+	--button-active-color: var(--button-color);
+	--button-disabled-color: var(--button-color);
+	--button-disabled-border: var(--button-border);
+}
+
+.btn-reject {
+	--button-background: rgba(209, 59, 59, 1);
+}
+
+.btn-confirm {
+	--button-background: rgba(35, 195, 35, 1);
 }
