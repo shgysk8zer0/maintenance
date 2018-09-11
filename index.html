@@ -7,6 +7,7 @@
 		<script type="module" src="js/index.js" async=""></script>
 		<link rel="stylesheet" href="css/styles/index.css" />
 		<link rel="icon" type="image/svg+xml" sizes="any" href="img/adwaita-icons/categories/preferences-system.svg" />
+		<link rel="preload" href="img/icons.svg" as="image" type="image/svg+xml" />
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
 		<header id="header"></header>
@@ -14,7 +15,7 @@
 		<footer id="footer"></footer>
 		<login-form action="data/user.json" method="POST"></login-form>
 		<template id="login-template">
-			<dialog>
+			<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
 				<form name="login">
 					<fieldset>
 						<legend>Login</legend>
@@ -29,6 +30,11 @@
 								<use xlink:href="img/icons.svg#dialog-password" />
 							</svg>
 							<input type="password" name="password" autocomplete="current-password" placeholder="********" minlength="8" required="" />
+							<button type="button" data-copy="jkcxnbvjkxcvgnbkjxcjvb" hidden="">
+								<svg class="current-color icon">
+									<use xlink:href="img/icons.svg#clippy" />
+								</svg>
+							</button>
 						</label>
 					</fieldset>
 					<button type="submit" class="btn btn-confirm">

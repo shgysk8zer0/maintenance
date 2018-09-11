@@ -9,6 +9,22 @@ customElements.define('maintenance-table', MaintenanceTable);
 
 ready().then(async () => {
 	document.documentElement.classList.replace('no-js', 'js');
+	if (typeof navigator.clipboard === 'object' && navigator.clipboard.writeText instanceof Function) {
+		document.querySelectorAll('[data-copy]').forEach(btn => {
+			btn.hidden = false;
+			btn.addEventListener('click', event => {
+				try {
+					const target = event.target.closest('[data-copy]');
+					navigator.clipboard.writeText(target.dataset.copy);
+				} catch (err) {
+					console.error(err);
+				}
+			});
+		});
+	} else {
+		document.querySelectorAll('[data-copy]').forEach(btn => btn.hidden = true);
+	}
+
 	await customElements.whenDefined('login-form');
 	const data = await document.querySelector('login-form').login();
 	const resp = await fetch(data.maintenance);
