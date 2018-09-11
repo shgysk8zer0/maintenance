@@ -1,6 +1,6 @@
 import './std-js/deprefixer.js';
 import './std-js/shims.js';
-import {ready, notify} from './std-js/functions.js';
+import {ready, notify, $} from './std-js/functions.js';
 import LoginForm from './components/login-form.js';
 import MaintenanceTable from './components/maintenance-table.js';
 
@@ -25,32 +25,44 @@ ready().then(async () => {
 		document.querySelectorAll('[data-copy]').forEach(btn => btn.hidden = true);
 	}
 
-	await customElements.whenDefined('login-form');
-	const data = await document.querySelector('login-form').login();
-	const resp = await fetch(data.maintenance);
-	const json = await resp.json();
+	$('[data-action="logout"]').click(LoginForm.logout);
 
-	if (Array.isArray(json) && json.length !== 0) {
-		try {
-			const notification = await notify('Maintenance pending', {
-				body: 'Click here for more details',
-				icon: new URL('img/adwaita-icons/categories/preferences-system.svg', document.baseURI),
-				lang: 'en',
-				dir: 'ltr',
-				tag: 'info',
-				requireInteraction: true,
-				data: {
-					items: json,
-				},
-			});
-
-			notification.addEventListener('click', event => {
-				const table = new MaintenanceTable(event.target.data.items);
-				table.classList.add('block');
-				document.getElementById('main').append(table);
-			});
-		} catch (error) {
-			console.error(error);
-		}
+	if (! sessionStorage.hasOwnProperty('token')) {
+		await customElements.whenDefined('login-form');
+		const data = await document.querySelector('login-form').login();
+		Object.entries(data).forEach(([key, value]) => sessionStorage.setItem(key, value));
 	}
+
+	const resp = await fetch(new URL(`https://www.vrmtel.net/api/v1/slapi.php/allservices_log/${sessionStorage.getItem('token')}`), {
+		mode: 'cors',
+	});
+
+	const json = await resp.json();
+	document.getElementById('main').append(new MaintenanceTable(json));
+
+	console.table(json);
+
+	// if (Array.isArray(json) && json.length !== 0) {
+	// 	try {
+	// 		const notification = await notify('Maintenance pending', {
+	// 			body: 'Click here for more details',
+	// 			icon: new URL('img/adwaita-icons/categories/preferences-system.svg', document.baseURI),
+	// 			lang: 'en',
+	// 			dir: 'ltr',
+	// 			tag: 'info',
+	// 			requireInteraction: true,
+	// 			data: {
+	// 				items: json,
+	// 			},
+	// 		});
+	//
+	// 		notification.addEventListener('click', event => {
+	// 			const table = new MaintenanceTable(event.target.data.items);
+	// 			table.classList.add('block');
+	// 			document.getElementById('main').append(table);
+	// 		});
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// }
 }).catch(console.error);

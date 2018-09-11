@@ -10,10 +10,21 @@
 		<link rel="preload" href="img/icons.svg" as="image" type="image/svg+xml" />
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
-		<header id="header"></header>
+		<header id="header">
+			<button type="button" data-action="login" hidden>
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#sign-in" />
+				</svg>
+			</button>
+			<button type="button" data-action="logout">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#sign-out" />
+				</svg>
+			</button>
+		</header>
 		<main id="main"></main>
 		<footer id="footer"></footer>
-		<login-form action="data/user.json" method="POST"></login-form>
+		<login-form action="https://www.vrmtel.net/api/v1/slapi.php/logins" method="POST"></login-form>
 		<template id="login-template">
 			<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
 				<form name="login">
@@ -23,7 +34,7 @@
 							<svg class="current-color icon">
 								<use xlink:href="img/icons.svg#mail" />
 							</svg>
-							<input type="email" name="email" autocomplete="email" placeholder="user@example.com" required="" />
+							<input type="number" name="userid" autocomplete="username" min="100000" max="999999"  placeholder="######" required="" />
 						</label>
 						<label class="block">
 							<svg class="current-color icon">

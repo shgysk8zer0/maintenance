@@ -10,9 +10,9 @@ export default class MaintenanceTable extends HTMLElement {
 	async createItem(details = {}) {
 		const item = new MaintenanceItem();
 		await item.init();
-		item.due = details.due;
+		item.due = details.scheduled_dttm.replace(' ', 'T');
 		item.description = details.description;
-		item.previous = details.previous;
+		// item.previous = details.service_dttm.replace(' ', 'T');
 		return item;
 	}
 

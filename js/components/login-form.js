@@ -1,3 +1,5 @@
+import {$} from '../std-js/functions.js';
+
 export default class LoginForm extends HTMLElement {
 	constructor() {
 		super();
@@ -13,6 +15,14 @@ export default class LoginForm extends HTMLElement {
 		}
 
 		this.form.addEventListener('reset', () => this.close());
+	}
+
+	set userid(userid) {
+		this.querySelector('[name="userid"]').value = userid;
+	}
+
+	set password(password) {
+		this.querySelector('[name="password"]').value = password;
 	}
 
 	get action() {
@@ -39,11 +49,33 @@ export default class LoginForm extends HTMLElement {
 			this.form.addEventListener('submit', async event => {
 				event.preventDefault();
 				try {
-					const resp = await fetch(this.action);
+					// const opts = await fetch(this.action, {
+					// 	method: 'OPTIONS',
+					// 	headers: new Headers({
+					// 		'Access-Control-Request-Headers': 'content-type',
+					// 		'Access-Control-Request-Method': 'POST',
+					// 	}),
+					// });
+					// console.info(Object.fromEntries(opts.headers.entries()));
+					const headers = new Headers();
+					const form = new FormData(event.target);
+					headers.set('Content-Type', 'application/json;charset=utf-8');
+					headers.set('Accept', 'Basic');
+					const resp = await fetch(this.action, {
+						method: this.method,
+						headers,
+						body: JSON.stringify([{
+							userid: form.get('userid'),
+							password: form.get('password'),
+						}]),
+						mode: 'cors',
+					});
 
 					if (resp.ok) {
 						const json = await resp.json();
 						resolve(json);
+						$('[data-action="login"]').hide();
+						$('[data-action="logout"]').unhide();
 						this.close();
 						this.reset();
 					} else {
@@ -59,6 +91,12 @@ export default class LoginForm extends HTMLElement {
 				reject(new Error('Login cancelled'));
 			}, {once: true});
 		});
+	}
+
+	static logout() {
+		sessionStorage.clear();
+		$('[data-action="login"]').unhide();
+		$('[data-action="logout"]').hide();
 	}
 
 	reset() {
