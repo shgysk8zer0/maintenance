@@ -16,14 +16,28 @@
 					<fieldset>
 						<legend>Login</legend>
 						<label class="block">
-							<input type="email" name="email" placeholder="user@example.com" required="" />
+							<svg class="current-color icon">
+								<use xlink:href="img/icons.svg#mail" />
+							</svg>
+							<input type="email" name="email" autocomplete="email" placeholder="user@example.com" required="" />
 						</label>
 						<label class="block">
-							<input type="password" name="password" placeholder="********" minlength="8" required="" />
+							<svg class="current-color icon">
+								<use xlink:href="img/icons.svg#dialog-password" />
+							</svg>
+							<input type="password" name="password" autocomplete="current-password" placeholder="********" minlength="8" required="" />
 						</label>
 					</fieldset>
-					<button type="submit" class="btn btn-confirm">Submit</button>
-					<button type="reset" class="btn btn-reject">Cancel</button>
+					<button type="submit" class="btn btn-confirm">
+						<svg class="current-color icon">
+							<use xlink:href="img/icons.svg#sign-in" />
+						</svg>
+					</button>
+					<button type="reset" class="btn btn-reject">
+						<svg class="current-color icon">
+							<use xlink:href="img/icons.svg#x" />
+						</svg>
+					</button>
 				</form>
 			</dialog>
 		</template>
@@ -43,11 +57,25 @@
 					background: var(--button-disabled-background);
 					cursor: not-allowed;
 				}
+
+				.current-color {
+					fill: currentColor;
+					color: inherit;
+				}
+
+				.icon {
+					height: 1em;
+					width: 1em;
+				}
 			</style>
 			<b><slot name="description">No Description</slot></b>
 			<span>Due on: <slot name="due">No due date set</slot></span>
 			<meter min="" high="" max="" value=""></meter>
-			<button type="button">Done</button>
+			<button type="button">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#check" />
+				</svg>
+			</button>
 		</template>
 	</body>
 </html>

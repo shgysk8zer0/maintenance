@@ -13,6 +13,7 @@
 	--button-active-color: var(--button-color);
 	--button-disabled-color: var(--button-color);
 	--button-disabled-border: var(--button-border);
+	--main-font: "Roboto";
 }
 
 .btn-reject {

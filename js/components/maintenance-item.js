@@ -4,6 +4,7 @@ let template = null;
 export default class MaintenanceItem extends HTMLElement {
 	constructor() {
 		super();
+		this.dataset.status = 'incomplete';
 		this.classList.add('block', 'card');
 	}
 
@@ -14,6 +15,7 @@ export default class MaintenanceItem extends HTMLElement {
 		this.shadowRoot.appendChild(template);
 		this.shadowRoot.querySelector('button').addEventListener('click', event => {
 			event.target.disabled = true;
+			this.dataset.status = 'completed';
 			this.previous = new Date();
 		});
 	}
@@ -44,7 +46,7 @@ export default class MaintenanceItem extends HTMLElement {
 		dateEl.dateTime = date.toISOString();
 		const prog = this.shadowRoot.querySelector('meter');
 		prog.max = tstamp;
-		prog.high = tstamp - 30 * 24 * 60 * 60;
+		prog.high = tstamp - 14 * 24 * 60 * 60;
 	}
 
 	set previous(date) {
