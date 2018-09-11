@@ -1,6 +1,7 @@
 export default class LoginForm extends HTMLElement {
 	constructor() {
 		super();
+		this.hidden = true;
 		this.append(document.getElementById('login-template').content.cloneNode(true));
 
 		if (this.hasAttribute('action')) {
@@ -34,26 +35,17 @@ export default class LoginForm extends HTMLElement {
 
 	async login() {
 		return new Promise(async (resolve, reject) => {
-			this.show();
+			this.showModal();
 			this.form.addEventListener('submit', async event => {
 				event.preventDefault();
 				try {
-					/*const headers = new Headers();
-					const body = new FormData(this.form);
-					headers.set('Accept', 'application/json');
-					const resp = await fetch(this.action, {
-						method: this.method,
-						body,
-						headers,
-						mode: 'cors',
-					});*/
 					const resp = await fetch(this.action);
 
 					if (resp.ok) {
 						const json = await resp.json();
 						resolve(json);
-						this.dialog.close();
-						this.form.reset();
+						this.close();
+						this.reset();
 					} else {
 						throw new Error(`${resp.url} [${resp.status} ${resp.statusText}]`);
 					}
@@ -63,7 +55,9 @@ export default class LoginForm extends HTMLElement {
 			}, {
 				once: true,
 			});
-			this.form.addEventListener('reset', () => reject(new Error('Login cancelled')), {once: true});
+			this.form.addEventListener('reset', () => {
+				reject(new Error('Login cancelled'));
+			}, {once: true});
 		});
 	}
 
@@ -80,10 +74,17 @@ export default class LoginForm extends HTMLElement {
 	}
 
 	show() {
+		this.hidden = false;
+		this.dialog.show();
+	}
+
+	showModal() {
+		this.hidden = false;
 		this.dialog.showModal();
 	}
 
 	close() {
+		this.hidden = true;
 		this.dialog.close();
 	}
 }

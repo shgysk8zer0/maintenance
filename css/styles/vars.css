@@ -14,12 +14,14 @@
 	--button-disabled-color: var(--button-color);
 	--button-disabled-border: var(--button-border);
 	--main-font: "Roboto";
+	--button-reject-background: rgba(209, 59, 59, 1);
+	--button-confirm-background: rgba(35, 195, 35, 1);
 }
 
 .btn-reject {
-	--button-background: rgba(209, 59, 59, 1);
+	--button-background: var(--button-reject-background);
 }
 
 .btn-confirm {
-	--button-background: rgba(35, 195, 35, 1);
+	--button-background: var(--button-confirm-background);
 }

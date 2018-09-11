@@ -1,4 +1,5 @@
-import {ready} from '../std-js/functions.js';
+import {ready, $} from '../std-js/functions.js';
+import {confirm} from '../std-js/asyncDialog.js';
 let template = null;
 
 export default class MaintenanceItem extends HTMLElement {
@@ -13,8 +14,15 @@ export default class MaintenanceItem extends HTMLElement {
 		template.querySelector('meter').value = Date.parse(new Date());
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(template);
-		this.shadowRoot.querySelector('button').addEventListener('click', event => {
-			event.target.disabled = true;
+
+		$('[data-action="delete"]', this.shadowRoot).click(async () => {
+			if (await confirm('Are you sure you want to delete this item?')) {
+				this.remove();
+			}
+		});
+
+		$('[data-action="done"]', this.shadowRoot).click(event => {
+			event.target.closest('[data-action="done"]').disabled = true;
 			this.dataset.status = 'completed';
 			this.previous = new Date();
 		});

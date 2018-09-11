@@ -15,23 +15,26 @@ ready().then(async () => {
 	const json = await resp.json();
 
 	if (Array.isArray(json) && json.length !== 0) {
-		const notification = await notify('Maintenance pending', {
-			body: 'Click here for more details',
-			icon: new URL('img/adwaita-icons/categories/preferences-system.svg', document.baseURI),
-			lang: 'en',
-			dir: 'ltr',
-			requireInteraction: false,
-			data: {
-				items: json,
-			},
-		});
+		try {
+			const notification = await notify('Maintenance pending', {
+				body: 'Click here for more details',
+				icon: new URL('img/adwaita-icons/categories/preferences-system.svg', document.baseURI),
+				lang: 'en',
+				dir: 'ltr',
+				tag: 'info',
+				requireInteraction: true,
+				data: {
+					items: json,
+				},
+			});
 
-		notification.addEventListener('click', event => {
-			const table = new MaintenanceTable(event.target.data.items);
-			table.classList.add('block');
-			document.body.append(table);
-		}, {
-			once: true,
-		});
+			notification.addEventListener('click', event => {
+				const table = new MaintenanceTable(event.target.data.items);
+				table.classList.add('block');
+				document.getElementById('main').append(table);
+			});
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }).catch(console.error);
