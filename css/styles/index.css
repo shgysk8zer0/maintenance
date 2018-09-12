@@ -10,3 +10,11 @@
 dialog {
 	border: none;
 }
+
+input {
+	padding: 0.4em;
+}
+
+label {
+	margin: 0.3em;
+}

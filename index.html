@@ -24,7 +24,7 @@
 		</header>
 		<main id="main"></main>
 		<footer id="footer"></footer>
-		<login-form action="https://www.vrmtel.net/api/v1/slapi.php/logins" method="POST"></login-form>
+		<login-form method="POST"></login-form>
 		<template id="login-template">
 			<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
 				<form name="login">
@@ -89,6 +89,10 @@
 					vertical-align: middle;
 				}
 
+				.btn-confirm {
+					background: var(--button-confirm-background);
+				}
+
 				.btn-reject {
 					background: var(--button-reject-background);
 				}
@@ -96,7 +100,7 @@
 			<b><slot name="description">No Description</slot></b>
 			<span>Due on: <slot name="due">No due date set</slot></span>
 			<meter min="" high="" max="" value=""></meter>
-			<button type="button" data-action="done">
+			<button type="button" class="btn-confirm" data-action="done">
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#check" />
 				</svg>
@@ -104,6 +108,11 @@
 			<button type="button" class="btn-reject" data-action="delete">
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#trashcan" />
+				</svg>
+			</button>
+			<button type="button" class="btn" data-action="edit">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#settings" />
 				</svg>
 			</button>
 		</template>

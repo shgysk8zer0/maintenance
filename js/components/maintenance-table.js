@@ -12,7 +12,11 @@ export default class MaintenanceTable extends HTMLElement {
 		await item.init();
 		item.due = details.scheduled_dttm.replace(' ', 'T');
 		item.description = details.description;
-		// item.previous = details.service_dttm.replace(' ', 'T');
+		try {
+			item.previous = details.service_dttm.replace(' ', 'T');
+		} catch(err) {
+			item.previous = 0;
+		}
 		return item;
 	}
 

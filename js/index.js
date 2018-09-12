@@ -3,6 +3,7 @@ import './std-js/shims.js';
 import {ready, notify, $} from './std-js/functions.js';
 import LoginForm from './components/login-form.js';
 import MaintenanceTable from './components/maintenance-table.js';
+import {API} from './consts.js';
 
 customElements.define('login-form', LoginForm);
 customElements.define('maintenance-table', MaintenanceTable);
@@ -33,36 +34,27 @@ ready().then(async () => {
 		Object.entries(data).forEach(([key, value]) => sessionStorage.setItem(key, value));
 	}
 
-	const resp = await fetch(new URL(`https://www.vrmtel.net/api/v1/slapi.php/allservices_log/${sessionStorage.getItem('token')}`), {
-		mode: 'cors',
-	});
+	if (sessionStorage.getItem('maintenance_upcoming') === '1') {
+		const notification = await notify('Maintenance is required soon', {
+			body: 'Click here to see scheduled maintenance',
+			icon: new URL('img/octicons/tools.svg', document.baseURI),
+			tag: 'maintenance',
+			dir: 'ltr',
+			lang: 'en',
+			data: {
+				url: `${API}/allservices_log/`,
+				token: sessionStorage.getItem('token'),
+			}
+		});
 
-	const json = await resp.json();
-	document.getElementById('main').append(new MaintenanceTable(json));
+		notification.addEventListener('click', async event => {
+			const resp = await fetch(new URL(`${event.target.data.url}${event.target.data.token}`), {
+				mode: 'cors',
+			});
 
-	console.table(json);
-
-	// if (Array.isArray(json) && json.length !== 0) {
-	// 	try {
-	// 		const notification = await notify('Maintenance pending', {
-	// 			body: 'Click here for more details',
-	// 			icon: new URL('img/adwaita-icons/categories/preferences-system.svg', document.baseURI),
-	// 			lang: 'en',
-	// 			dir: 'ltr',
-	// 			tag: 'info',
-	// 			requireInteraction: true,
-	// 			data: {
-	// 				items: json,
-	// 			},
-	// 		});
-	//
-	// 		notification.addEventListener('click', event => {
-	// 			const table = new MaintenanceTable(event.target.data.items);
-	// 			table.classList.add('block');
-	// 			document.getElementById('main').append(table);
-	// 		});
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// }
+			const json = await resp.json();
+			console.log(json);
+			document.getElementById('main').append(new MaintenanceTable(json));
+		});
+	}
 }).catch(console.error);

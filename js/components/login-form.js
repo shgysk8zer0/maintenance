@@ -1,4 +1,5 @@
 import {$} from '../std-js/functions.js';
+import {API} from '../consts.js';
 
 export default class LoginForm extends HTMLElement {
 	constructor() {
@@ -8,6 +9,9 @@ export default class LoginForm extends HTMLElement {
 
 		if (this.hasAttribute('action')) {
 			this.form.action = this.getAttribute('action');
+		} else {
+			this.setAttribute('action', `${API}/logins/`);
+			this.form.action = `${API}/logins/`;
 		}
 
 		if (this.hasAttribute('method')) {
@@ -49,14 +53,6 @@ export default class LoginForm extends HTMLElement {
 			this.form.addEventListener('submit', async event => {
 				event.preventDefault();
 				try {
-					// const opts = await fetch(this.action, {
-					// 	method: 'OPTIONS',
-					// 	headers: new Headers({
-					// 		'Access-Control-Request-Headers': 'content-type',
-					// 		'Access-Control-Request-Method': 'POST',
-					// 	}),
-					// });
-					// console.info(Object.fromEntries(opts.headers.entries()));
 					const headers = new Headers();
 					const form = new FormData(event.target);
 					headers.set('Content-Type', 'application/json;charset=utf-8');

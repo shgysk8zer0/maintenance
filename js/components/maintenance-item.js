@@ -1,5 +1,5 @@
 import {ready, $} from '../std-js/functions.js';
-import {confirm} from '../std-js/asyncDialog.js';
+import {confirm, alert} from '../std-js/asyncDialog.js';
 let template = null;
 
 export default class MaintenanceItem extends HTMLElement {
@@ -26,6 +26,8 @@ export default class MaintenanceItem extends HTMLElement {
 			this.dataset.status = 'completed';
 			this.previous = new Date();
 		});
+
+		$('[data-action="edit"]', this.shadowRoot).click(() => alert('Not yet implemented'));
 	}
 
 	static async getTemplate() {
