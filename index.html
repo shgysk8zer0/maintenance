@@ -26,6 +26,7 @@
 			<maintenance-table>
 				<div slot="scheduled"></div>
 				<div slot="pending"></div>
+				<div slot="unscheduled"></div>
 			</maintenance-table>
 		</main>
 		<footer id="footer"></footer>
@@ -38,6 +39,10 @@
 			<section>
 				<h3>Scheduled Maintenance</h3>
 				<slot name="scheduled">No Scheduled Items</slot>
+			</section>
+			<section>
+				<h3>Unscheduled Maintenance</h3>
+				<slot name="unscheduled">No Unscheduled Items</slot>
 			</section>
 		</template>
 		<template id="login-template">

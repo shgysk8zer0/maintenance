@@ -38,7 +38,17 @@ export default class MaintenanceTable extends HTMLElement {
 
 	async addItem(...items) {
 		const els = await Promise.all(items.map(item => this.createItem(item)));
-		this.scheduled.append(...els);
+		els.forEach(el => {
+			switch(el.status) {
+			case 'Upcoming Service Scheduled':
+				this.scheduled.append(el);
+				break;
+			case 'Reminder Date Reached':
+				this.pending.append(el);
+				break;
+			default: this.unscheduled.append(el);
+			}
+		});
 		return els;
 	}
 
@@ -56,5 +66,21 @@ export default class MaintenanceTable extends HTMLElement {
 
 	get scheduledItems() {
 		return [...this.scheduled.children];
+	}
+
+	get unscheduled() {
+		return this.querySelector('[slot="unscheduled"]');
+	}
+
+	get unscheduledItems() {
+		return [...this.unscheduled.children];
+	}
+
+	get items() {
+		return {
+			pending: this.pendingItems,
+			scheduled: this.scheduledItems,
+			unscheduled: this.unscheduled,
+		};
 	}
 }

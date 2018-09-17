@@ -26,6 +26,7 @@ export default class MaintenanceItem extends HTMLElement {
 			event.target.closest('[data-action="done"]').disabled = true;
 			this.dataset.status = 'completed';
 			this.previous = new Date();
+			this.closest('maintenance-table').scheduled.append(this);
 		});
 
 		$('[data-action="edit"]', this.shadowRoot).click(() => alert('Not yet implemented'));
