@@ -81,6 +81,7 @@ ready().then(async () => {
 				}
 				console.log(json);
 				const maintenance = document.querySelector('maintenance-table');
+				maintenance.hidden = false;
 				maintenance.addItem(...json);
 			} catch(err) {
 				console.error(err);
