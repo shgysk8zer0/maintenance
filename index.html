@@ -11,12 +11,12 @@
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
 		<header id="header">
-			<button type="button" data-action="login" hidden>
+			<button type="button" data-action="login">
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#sign-in" />
 				</svg>
 			</button>
-			<button type="button" data-action="logout">
+			<button type="button" data-action="logout" hidden="">
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#sign-out" />
 				</svg>
@@ -24,24 +24,27 @@
 		</header>
 		<main id="main">
 			<maintenance-table hidden="">
-				<div slot="scheduled"></div>
-				<div slot="pending"></div>
-				<div slot="unscheduled"></div>
+				<h3 class="center background-accent color-alt" slot="pending-label">Pending Maintenance</h3>
+				<h3 class="center background-accent color-alt" slot="scheduled-label">Scheduled Maintenance</h3>
+				<h3 class="center background-accent color-alt" slot="unscheduled-label">Unscheduled Maintenance</h3>
+				<div slot="scheduled" class="card"></div>
+				<div slot="pending" class="card"></div>
+				<div slot="unscheduled" class="card"></div>
 			</maintenance-table>
 		</main>
 		<footer id="footer"></footer>
 		<login-form method="POST"></login-form>
 		<template id="maintenance-table-template">
 			<section>
-				<h3>Pending Maintenance</h3>
+				<slot name="pending-label"><h3>Pending Maintenance</h3></slot>
 				<slot name="pending">No Pending Items</slot>
 			</section>
 			<section>
-				<h3>Scheduled Maintenance</h3>
+				<slot name="scheduled-label"><h3>Scheduled Maintenance</h3></slot>
 				<slot name="scheduled">No Scheduled Items</slot>
 			</section>
 			<section>
-				<h3>Unscheduled Maintenance</h3>
+				<slot name="unscheduled-label"><h3>Unscheduled Maintenance</h3></slot>
 				<slot name="unscheduled">No Unscheduled Items</slot>
 			</section>
 		</template>

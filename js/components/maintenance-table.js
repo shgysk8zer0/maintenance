@@ -52,6 +52,12 @@ export default class MaintenanceTable extends HTMLElement {
 		return els;
 	}
 
+	clear() {
+		this.scheduledItems.forEach(el => el.remove());
+		this.pendingItems.forEach(el => el.remove());
+		this.unscheduledItems.forEach(el => el.remove());
+	}
+
 	get pending() {
 		return this.querySelector('[slot="pending"]');
 	}

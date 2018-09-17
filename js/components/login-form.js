@@ -77,6 +77,7 @@ export default class LoginForm extends HTMLElement {
 						$('[data-action="logout"]').unhide();
 						this.close();
 						this.reset();
+						document.dispatchEvent(new CustomEvent('login', {detail: json}));
 					} else {
 						throw new Error(`${resp.url} [${resp.status} ${resp.statusText}]`);
 					}
@@ -96,6 +97,7 @@ export default class LoginForm extends HTMLElement {
 		sessionStorage.clear();
 		$('[data-action="login"]').unhide();
 		$('[data-action="logout"]').hide();
+		document.dispatchEvent(new CustomEvent('logout'));
 	}
 
 	reset() {
