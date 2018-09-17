@@ -23,6 +23,7 @@ export default class MaintenanceTable extends HTMLElement {
 		item.vehicle = details.vehicle;
 		item.uid = details.uid;
 		item.priority = details.priority;
+		item.status = details.log_status;
 		item.vehicleUid = details.vehicles_uid;
 		if (details.vehicle_image !== '') {
 			item.image = details.vehicle_image;
@@ -45,7 +46,15 @@ export default class MaintenanceTable extends HTMLElement {
 		return this.querySelector('[slot="pending"]');
 	}
 
+	get pendingItems() {
+		return [...this.pending.children];
+	}
+
 	get scheduled() {
 		return this.querySelector('[slot="scheduled"]');
+	}
+
+	get scheduledItems() {
+		return [...this.scheduled.children];
 	}
 }

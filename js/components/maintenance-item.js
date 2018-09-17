@@ -71,6 +71,14 @@ export default class MaintenanceItem extends HTMLElement {
 		return parseInt(this.getAttribute('priority'));
 	}
 
+	set status(status) {
+		this.setAttribute('status', status);
+	}
+
+	get status() {
+		return this.getAttribute('status');
+	}
+
 	set image(img) {
 		const image = new Image();
 		image.src = new URL(img, IMAGES_DIR);
