@@ -69,6 +69,9 @@ export default class LoginForm extends HTMLElement {
 
 					if (resp.ok) {
 						const json = await resp.json();
+						if (json.hasOwnProperty('error') && json.hasOwnProperty('message')) {
+							reject(new Error(`${json.message} [${json.error}]`));
+						}
 						resolve(json);
 						$('[data-action="login"]').hide();
 						$('[data-action="logout"]').unhide();

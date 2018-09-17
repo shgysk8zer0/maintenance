@@ -4,7 +4,15 @@ customElements.define('maintenance-item', MaintenanceItem);
 export default class MaintenanceTable extends HTMLElement {
 	constructor(items = []) {
 		super();
-		this.addItem(...items);
+		this.attachShadow({mode: 'open'});
+		const template = document.getElementById('maintenance-table-template').content;
+		const container = document.createElement('div');
+		container.slot = 'items';
+		this.append(container);
+		this.shadowRoot.append(template);
+		if (Array.isArray(items)) {
+			this.addItem(...items);
+		}
 	}
 
 	async createItem(details = {}) {
@@ -12,6 +20,13 @@ export default class MaintenanceTable extends HTMLElement {
 		await item.init();
 		item.due = details.scheduled_dttm.replace(' ', 'T');
 		item.description = details.description;
+		item.vehicle = details.vehicle;
+		item.uid = details.uid;
+		item.priority = details.priority;
+		item.vehicleUid = details.vehicles_uid;
+		if (details.vehicle_image !== '') {
+			item.image = details.vehicle_image;
+		}
 		try {
 			item.previous = details.service_dttm.replace(' ', 'T');
 		} catch(err) {
@@ -22,11 +37,15 @@ export default class MaintenanceTable extends HTMLElement {
 
 	async addItem(...items) {
 		const els = await Promise.all(items.map(item => this.createItem(item)));
-		this.append(...els);
+		this.scheduled.append(...els);
 		return els;
 	}
 
-	getItems() {
-		return Array.from(this.querySelectorAll('maintenance-item'));
+	get pending() {
+		return this.querySelector('[slot="pending"]');
+	}
+
+	get scheduled() {
+		return this.querySelector('[slot="scheduled"]');
 	}
 }

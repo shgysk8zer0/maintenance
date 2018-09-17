@@ -22,9 +22,24 @@
 				</svg>
 			</button>
 		</header>
-		<main id="main"></main>
+		<main id="main">
+			<maintenance-table>
+				<div slot="scheduled"></div>
+				<div slot="pending"></div>
+			</maintenance-table>
+		</main>
 		<footer id="footer"></footer>
 		<login-form method="POST"></login-form>
+		<template id="maintenance-table-template">
+			<section>
+				<h3>Pending Maintenance</h3>
+				<slot name="pending">No Pending Items</slot>
+			</section>
+			<section>
+				<h3>Scheduled Maintenance</h3>
+				<slot name="scheduled">No Scheduled Items</slot>
+			</section>
+		</template>
 		<template id="login-template">
 			<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
 				<form name="login">
@@ -32,7 +47,7 @@
 						<legend>Login</legend>
 						<label class="block">
 							<svg class="current-color icon">
-								<use xlink:href="img/icons.svg#mail" />
+								<use xlink:href="img/icons.svg#avatar-default" />
 							</svg>
 							<input type="number" name="userid" autocomplete="username" min="100000" max="999999"  placeholder="######" required="" />
 						</label>
@@ -97,6 +112,11 @@
 					background: var(--button-reject-background);
 				}
 			</style>
+			<slot name="image">
+				<svg width="96" height="96">
+					<use xlink:href="img/icons.svg#image-x-generic" />
+				</svg>
+			</slot>
 			<b><slot name="description">No Description</slot></b>
 			<span>Due on: <slot name="due">No due date set</slot></span>
 			<meter min="" high="" max="" value=""></meter>

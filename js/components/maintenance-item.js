@@ -1,5 +1,6 @@
 import {ready, $} from '../std-js/functions.js';
 import {confirm, alert} from '../std-js/asyncDialog.js';
+import {IMAGES_DIR} from '../consts.js';
 let template = null;
 
 export default class MaintenanceItem extends HTMLElement {
@@ -28,6 +29,69 @@ export default class MaintenanceItem extends HTMLElement {
 		});
 
 		$('[data-action="edit"]', this.shadowRoot).click(() => alert('Not yet implemented'));
+	}
+
+	set uid(uid) {
+		this.setAttribute('uid', uid);
+	}
+
+	get uid() {
+		return this.getAttribute('uid');
+	}
+
+	set vehicleUid(uid) {
+		this.setAttribute('vehicle-uid', uid);
+	}
+
+	get vehicleUid() {
+		return this.getAttribute('vehicle-uid');
+	}
+
+	set serviceUid(uid) {
+		this.setAttribute('service-uid', uid);
+	}
+
+	get serviceUid() {
+		return this.getAttribute('service-uid');
+	}
+
+	set vehicle(vehicle) {
+		this.setAttribute('vehicle', vehicle);
+	}
+
+	get vehicle() {
+		return this.getAttribute('vehicle');
+	}
+
+	set priority(priority) {
+		this.setAttribute('priority', priority);
+	}
+
+	get priority() {
+		return parseInt(this.getAttribute('priority'));
+	}
+
+	set image(img) {
+		const image = new Image();
+		image.src = new URL(img, IMAGES_DIR);
+		image.height = 96;
+		image.width = 96;
+		image.decoding = 'async';
+		image.slot = 'image';
+		image.classList.add('vehicle-image');
+		image.alt = this.vehicle;
+		image.addEventListener('click', event => {
+			window.open(
+				event.target.src,
+				event.target.alt,
+				`height=${event.target.naturalHeight},width=${event.target.naturalWidth}`
+			);
+		});
+		image.addEventListener('load', event => this.append(event.target));
+	}
+
+	get image() {
+		return this.querySelector('[slot="image"]');
 	}
 
 	static async getTemplate() {
