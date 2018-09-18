@@ -1,0 +1,14 @@
+<template id="maintenance-table-template">
+	<section>
+		<slot name="pending-label"><h3>Pending Maintenance</h3></slot>
+		<slot name="pending">No Pending Items</slot>
+	</section>
+	<section>
+		<slot name="scheduled-label"><h3>Scheduled Maintenance</h3></slot>
+		<slot name="scheduled">No Scheduled Items</slot>
+	</section>
+	<section>
+		<slot name="unscheduled-label"><h3>Unscheduled Maintenance</h3></slot>
+		<slot name="unscheduled">No Unscheduled Items</slot>
+	</section>
+</template>
