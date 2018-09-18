@@ -1,14 +1,49 @@
 <template id="maintenance-table-template">
-	<section>
-		<slot name="pending-label"><h3>Pending Maintenance</h3></slot>
-		<slot name="pending">No Pending Items</slot>
+	<style>
+		.maintenance-section {
+			padding: 0.8rem;
+			margin: 0.2rem;
+			border: var(--card-border, 1px solid #ccc);
+			border-radius: var(--card-radius, 2px);
+			background: var(--card-bg, white);
+		}
+
+		.section-heading {
+			font-size: 1.8rem;
+			margin-top: 0;
+			padding: 0.2rem;
+			background: var(--accent-color);
+			color: var(--alt-color);
+		}
+	</style>
+	<section class="maintenance-section">
+		<details open="">
+			<summary class="section-heading">
+				<slot name="pending-label">
+					<strong>Pending Maintenance</strong>
+				</slot>
+			</summary>
+			<slot name="pending">No Pending Items</slot>
+		</details>
 	</section>
-	<section>
-		<slot name="scheduled-label"><h3>Scheduled Maintenance</h3></slot>
-		<slot name="scheduled">No Scheduled Items</slot>
+	<section class="maintenance-section">
+		<details>
+			<summary class="section-heading">
+				<slot name="scheduled-label">
+					<strong>Scheduled Maintenance</strong>
+				</slot>
+			</summary>
+			<slot name="scheduled">No Scheduled Items</slot>
+		</details>
 	</section>
-	<section>
-		<slot name="unscheduled-label"><h3>Unscheduled Maintenance</h3></slot>
-		<slot name="unscheduled">No Unscheduled Items</slot>
+	<section class="maintenance-section">
+		<details>
+			<summary class="section-heading">
+				<slot name="unscheduled-label">
+					<strong>Unscheduled Maintenance</strong>
+				</slot>
+			</summary>
+			<slot name="unscheduled">No Unscheduled Items</slot>
+		</details>
 	</section>
 </template>
