@@ -12,5 +12,9 @@ plus,img/octicons/plus.svg
 dash,img/octicons/dash.svg
 clock,img/octicons/clock.svg
 three-bars,img/octicons/three-bars.svg
+car,img/car.svg
+truck,img/truck.svg
+engine,img/engine.svg
+call-start,img/adwaita-icons/actions/call-start.svg
 avatar-default,img/adwaita-icons/status/avatar-default.svg
 image-x-generic,img/adwaita-icons/mimetypes/image-x-generic.svg

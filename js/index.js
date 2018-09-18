@@ -3,10 +3,15 @@ import './std-js/shims.js';
 import {ready, notify, $} from './std-js/functions.js';
 import LoginForm from './components/login-form.js';
 import MaintenanceTable from './components/maintenance-table.js';
-import {API} from './consts.js';
+import {API, TEMPLATES, ELEMENTS} from './consts.js';
 
-customElements.define('login-form', LoginForm);
-customElements.define('maintenance-table', MaintenanceTable);
+async function loadTemplate(url) {
+	const resp = await fetch(url);
+	const parser = new DOMParser();
+	const html = await resp.text();
+	const doc = parser.parseFromString(html, 'text/html');
+	return doc.querySelector('template');
+}
 
 async function getIcon(path, {
 	fill = '#363636',
@@ -74,7 +79,13 @@ async function showLogin() {
 
 ready().then(async () => {
 	document.documentElement.classList.replace('no-js', 'js');
+	const templates = await Promise.all(TEMPLATES.map(template => loadTemplate(template)));
+	document.body.append(...templates);
+	customElements.define('login-form', LoginForm);
+	customElements.define('maintenance-table', MaintenanceTable);
+	await Promise.all(ELEMENTS.map(el => customElements.whenDefined(el)));
 	const maintenance = document.querySelector('maintenance-table');
+
 	if (typeof navigator.clipboard === 'object' && navigator.clipboard.writeText instanceof Function) {
 		document.querySelectorAll('[data-copy]').forEach(btn => {
 			btn.hidden = false;

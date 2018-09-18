@@ -11,7 +11,7 @@
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
 		<header id="header">
-			<button type="button" data-action="login">
+			<button type="button" data-action="login" hidden>
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#sign-in" />
 				</svg>
@@ -47,102 +47,6 @@
 				<slot name="unscheduled-label"><h3>Unscheduled Maintenance</h3></slot>
 				<slot name="unscheduled">No Unscheduled Items</slot>
 			</section>
-		</template>
-		<template id="login-template">
-			<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
-				<form name="login">
-					<fieldset>
-						<legend>Login</legend>
-						<label class="block">
-							<svg class="current-color icon">
-								<use xlink:href="img/icons.svg#avatar-default" />
-							</svg>
-							<input type="number" name="userid" autocomplete="username" min="100000" max="999999"  placeholder="######" required="" />
-						</label>
-						<label class="block">
-							<svg class="current-color icon">
-								<use xlink:href="img/icons.svg#dialog-password" />
-							</svg>
-							<input type="password" name="password" autocomplete="current-password" placeholder="********" minlength="8" required="" />
-							<button type="button" data-copy="jkcxnbvjkxcvgnbkjxcjvb" hidden="">
-								<svg class="current-color icon">
-									<use xlink:href="img/icons.svg#clippy" />
-								</svg>
-							</button>
-						</label>
-					</fieldset>
-					<button type="submit" class="btn btn-confirm">
-						<svg class="current-color icon">
-							<use xlink:href="img/icons.svg#sign-in" />
-						</svg>
-					</button>
-					<button type="reset" class="btn btn-reject">
-						<svg class="current-color icon">
-							<use xlink:href="img/icons.svg#x" />
-						</svg>
-					</button>
-				</form>
-			</dialog>
-		</template>
-		<template id="maintenance-item-template">
-			<style>
-				button {
-					color: var(--button-color);
-					background: var(--button-background);
-					border: var(--button-border);
-					padding: var(--button-padding);
-					border-radius: var(--button-border-radius);
-					cursor: pointer;
-				}
-
-				button:disabled {
-					color: var(--button-disabled-color);
-					background: var(--button-disabled-background);
-					cursor: not-allowed;
-				}
-
-				.current-color {
-					fill: currentColor;
-					color: inherit;
-				}
-
-				.icon {
-					height: 1em;
-					width: 1em;
-					vertical-align: middle;
-				}
-
-				.btn-confirm {
-					background: var(--button-confirm-background);
-				}
-
-				.btn-reject {
-					background: var(--button-reject-background);
-				}
-			</style>
-			<slot name="image">
-				<svg width="96" height="96">
-					<use xlink:href="img/icons.svg#image-x-generic" />
-				</svg>
-			</slot>
-			<b><slot name="description">No Description</slot></b>
-			<span>Due on: <slot name="due">No due date set</slot></span>
-			<meter min="" high="" max="" value=""></meter>
-			<button type="button" class="btn-confirm" data-action="done">
-				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#check" />
-				</svg>
-			</button>
-			<button type="button" class="btn-reject" data-action="delete">
-				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#trashcan" />
-				</svg>
-			</button>
-			<button type="button" class="btn" data-action="edit">
-				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#settings" />
-				</svg>
-			</button>
 		</template>
 	</body>
 </html>
