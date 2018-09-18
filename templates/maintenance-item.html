@@ -1,0 +1,121 @@
+<template id="maintenance-item-template">
+	<style>
+		button, [role="button"] {
+			color: var(--button-color);
+			background: var(--button-background);
+			border: var(--button-border);
+			padding: var(--button-padding);
+			border-radius: var(--button-border-radius);
+			cursor: pointer;
+		}
+
+		button:disabled {
+			color: var(--button-disabled-color);
+			background: var(--button-disabled-background);
+			cursor: not-allowed;
+		}
+
+		.current-color {
+			fill: currentColor;
+			color: inherit;
+		}
+
+		.icon {
+			height: 1em;
+			width: 1em;
+			vertical-align: middle;
+		}
+
+		.btn-confirm {
+			background: var(--button-confirm-background);
+		}
+
+		.btn-reject {
+			background: var(--button-reject-background);
+		}
+
+		.grid {
+			display: grid;
+		}
+
+		.description {
+			grid-area: description;
+		}
+
+		.thumbnail {
+			grid-area: thumbnail;
+		}
+
+		.due {
+			grid-area: due;
+		}
+
+		.due-meter {
+			grid-area: due-meter;
+		}
+
+		.done-btn {
+			grid-area: done;
+		}
+
+		.delete-btn {
+			grid-area: delete;
+		}
+
+		.edit-btn {
+			grid-area: edit;
+		}
+
+		.call-btn {
+			grid-area: call;
+		}
+
+		.mileage {
+			grid-area: miles;
+		}
+
+		.miles-meter {
+			grid-area: miles-meter;
+		}
+
+		.maintenance-item {
+			grid-template-areas: 'thumbnail . due due-meter . . . .'
+			'thumbnail description . . done delete edit call'
+			'thumbnail . miles miles-meter . . . .';
+			grid-template-columns: 6fr 8fr 4fr 6fr 1fr 1fr 1fr 1fr;
+			grid-column-gap: 0.5em;
+			grid-row-gap: 0.23em;
+			max-width: 100vw;
+		}
+	</style>
+	<div class="grid maintenance-item">
+		<svg class="current-color thumbnail">
+			<use xlink:href="img/icons.svg#car" />
+		</svg>
+		<b class="description"><slot name="description">No Description</slot></b>
+		<span class="due">Due on: <slot name="due">No due date set</slot></span>
+		<meter class="due-meter" min="" high="" max="" value=""></meter>
+		<span class="mileage">Mileage: <slot name="mileage">NA</slot></span>
+		<meter class="miles-meter" min="0" high="80" max="100" max="87"></meter>
+		<button type="button" class="btn-confirm done-btn" data-action="done-btn">
+			<svg class="current-color icon">
+				<use xlink:href="img/icons.svg#check" />
+			</svg>
+		</button>
+		<button type="button" class="btn-reject delete-btn" data-action="delete">
+			<svg class="current-color icon">
+				<use xlink:href="img/icons.svg#trashcan" />
+			</svg>
+		</button>
+		<button type="button" class="btn edit-btn" data-action="edit">
+			<svg class="current-color icon">
+				<use xlink:href="img/icons.svg#settings" />
+			</svg>
+		</button>
+		<a role="button" href="#" class="inline-block call-btn">
+			<svg class="current-color icon">
+				<use xlink:href="img/icons.svg#call-start" />
+			</svg>
+		</a>
+	</div>
+</template>

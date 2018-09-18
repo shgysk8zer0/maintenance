@@ -3,13 +3,24 @@ import './std-js/shims.js';
 import {ready, notify, $} from './std-js/functions.js';
 import LoginForm from './components/login-form.js';
 import MaintenanceTable from './components/maintenance-table.js';
-import {API} from './consts.js';
+import {API, TEMPLATES, ELEMENTS} from './consts.js';
 
-customElements.define('login-form', LoginForm);
-customElements.define('maintenance-table', MaintenanceTable);
+(async loads => {
+	const parser = new DOMParser();
+	const resps = await Promise.all(loads.map(load => fetch(load)));
+	const strs = await Promise.all(resps.map(resp => resp.text()));
+	const docs = strs.map(str => parser.parseFromString(str, 'text/html'));
+	docs.forEach(doc => document.body.append(doc.querySelector('template')));
+
+	customElements.define('login-form', LoginForm);
+	customElements.define('maintenance-table', MaintenanceTable);
+})(TEMPLATES);
+
 
 ready().then(async () => {
 	document.documentElement.classList.replace('no-js', 'js');
+	await Promise.all(ELEMENTS.map(el => customElements.whenDefined(el)));
+
 	if (typeof navigator.clipboard === 'object' && navigator.clipboard.writeText instanceof Function) {
 		document.querySelectorAll('[data-copy]').forEach(btn => {
 			btn.hidden = false;

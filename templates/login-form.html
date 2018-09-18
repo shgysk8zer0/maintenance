@@ -1,0 +1,36 @@
+<template id="login-template">
+	<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
+		<form name="login">
+			<fieldset>
+				<legend>Login</legend>
+				<label class="block">
+					<svg class="current-color icon">
+						<use xlink:href="img/icons.svg#mail" />
+					</svg>
+					<input type="number" name="userid" autocomplete="username" min="100000" max="999999"  placeholder="######" required="" />
+				</label>
+				<label class="block">
+					<svg class="current-color icon">
+						<use xlink:href="img/icons.svg#dialog-password" />
+					</svg>
+					<input type="password" name="password" autocomplete="current-password" placeholder="********" minlength="8" required="" />
+					<button type="button" data-copy="jkcxnbvjkxcvgnbkjxcjvb" hidden="">
+						<svg class="current-color icon">
+							<use xlink:href="img/icons.svg#clippy" />
+						</svg>
+					</button>
+				</label>
+			</fieldset>
+			<button type="submit" class="btn btn-confirm">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#sign-in" />
+				</svg>
+			</button>
+			<button type="reset" class="btn btn-reject">
+				<svg class="current-color icon">
+					<use xlink:href="img/icons.svg#x" />
+				</svg>
+			</button>
+		</form>
+	</dialog>
+</template>
