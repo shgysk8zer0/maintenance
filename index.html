@@ -11,12 +11,12 @@
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
 		<header id="header">
-			<button type="button" data-action="login" hidden>
+			<button type="button" title="Sign In" is="login-button" hidden="">
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#sign-in" />
 				</svg>
 			</button>
-			<button type="button" data-action="logout" hidden="">
+			<button type="button" title="Sign Out" is="logout-button" hidden="">
 				<svg class="current-color icon">
 					<use xlink:href="img/icons.svg#sign-out" />
 				</svg>
@@ -29,7 +29,10 @@
 				<div slot="unscheduled" class="card"></div>
 			</maintenance-table>
 		</main>
-		<footer id="footer"></footer>
+		<footer id="footer">
+			<span>&copy;</span>
+			<time is="current-year"></time>
+		</footer>
 		<login-form method="POST"></login-form>
 	</body>
 </html>

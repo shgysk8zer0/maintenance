@@ -1,0 +1,12 @@
+<template id="vehicle-element-template">
+	<div>
+		<slot name="thumbnail">
+			<svg width="128" height="128">
+				<use xlink:href="img/icons.svg#image-x-generic" />
+			</svg>
+		</slot>
+		<slot name="maintenance-items">
+			<b>No Maintenance Required</b>
+		</slot>
+	</div>
+</template>

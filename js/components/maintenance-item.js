@@ -164,3 +164,5 @@ export default class MaintenanceItem extends HTMLElement {
 		return this.querySelector('[slot="description"]').textContent;
 	}
 }
+
+customElements.define('maintenance-item', MaintenanceItem);

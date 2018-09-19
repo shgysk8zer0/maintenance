@@ -93,13 +93,6 @@ export default class LoginForm extends HTMLElement {
 		});
 	}
 
-	static logout() {
-		sessionStorage.clear();
-		$('[data-action="login"]').unhide();
-		$('[data-action="logout"]').hide();
-		document.dispatchEvent(new CustomEvent('logout'));
-	}
-
 	reset() {
 		this.form.reset();
 	}

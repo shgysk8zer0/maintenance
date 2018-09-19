@@ -1,9 +1,14 @@
 import MaintenanceItem from './maintenance-item.js';
-customElements.define('maintenance-item', MaintenanceItem);
 
 export default class MaintenanceTable extends HTMLElement {
 	constructor(items = []) {
 		super();
+
+		document.addEventListener('logout', () => {
+			this.hidden = true;
+			this.clear();
+		});
+
 		this.attachShadow({mode: 'open'});
 		const template = document.getElementById('maintenance-table-template').content;
 		const container = document.createElement('div');
@@ -86,7 +91,11 @@ export default class MaintenanceTable extends HTMLElement {
 		return {
 			pending: this.pendingItems,
 			scheduled: this.scheduledItems,
-			unscheduled: this.unscheduled,
+			unscheduled: this.unscheduledItems,
 		};
+	}
+
+	get vehicles() {
+		return [...this.querySelector('vehicle-element')];
 	}
 }
