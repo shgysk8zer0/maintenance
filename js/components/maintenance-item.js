@@ -1,6 +1,8 @@
 import {ready, $} from '../std-js/functions.js';
 import {confirm, alert} from '../std-js/asyncDialog.js';
 import {IMAGES_DIR} from '../consts.js';
+const TEMPLATE = new URL('/templates/maintenance-item.html', document.baseURI);
+const TAG = 'maintenance-item';
 let template = null;
 
 export default class MaintenanceItem extends HTMLElement {
@@ -165,4 +167,10 @@ export default class MaintenanceItem extends HTMLElement {
 	}
 }
 
-customElements.define('maintenance-item', MaintenanceItem);
+fetch(TEMPLATE).then(async resp => {
+	const parser = new DOMParser();
+	const html = await resp.text();
+	const doc = parser.parseFromString(html, 'text/html');
+	document.body.append(...doc.querySelectorAll('template'));
+	customElements.define(TAG, MaintenanceItem);
+});

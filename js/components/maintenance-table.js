@@ -1,4 +1,6 @@
 import MaintenanceItem from './maintenance-item.js';
+const TEMPLATE = new URL('/templates/maintenance-table.html', document.baseURI);
+const TAG = 'maintenance-table';
 
 export default class MaintenanceTable extends HTMLElement {
 	constructor(items = []) {
@@ -99,3 +101,11 @@ export default class MaintenanceTable extends HTMLElement {
 		return [...this.querySelector('vehicle-element')];
 	}
 }
+
+fetch(TEMPLATE).then(async resp => {
+	const parser = new DOMParser();
+	const html = await resp.text();
+	const doc = parser.parseFromString(html, 'text/html');
+	document.body.append(...doc.querySelectorAll('template'));
+	customElements.define(TAG, MaintenanceTable);
+});

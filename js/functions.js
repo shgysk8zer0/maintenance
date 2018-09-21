@@ -95,25 +95,6 @@ export async function getIcon(path, {
 	return `data:image/svg+xml;base64,${btoa(icon.documentElement.outerHTML)}`;
 }
 
-export async function loadTemplate(url) {
-	const resp = await fetch(url);
-	const parser = new DOMParser();
-	const html = await resp.text();
-	const doc = parser.parseFromString(html, 'text/html');
-	return doc.querySelector('template');
-}
-
-export async function initTemplates(...urls) {
-	const templates = await Promise.all(urls.map(template => loadTemplate(template)));
-	document.body.append(...templates);
-}
-
-export function defineElements(...elements) {
-	elements.filter(el => customElements.get(el.tag) === undefined).forEach(el => {
-		if (el.hasOwnProperty(parent)) {
-			customElements.define(el.tag, el.proto, {extends: parent});
-		} else {
-			customElements.define(el.tag, el.proto);
-		}
-	});
+export async function whenDefined(...els) {
+	return Promise.all(els.map(el => customElements.whenDefined(el)));
 }
