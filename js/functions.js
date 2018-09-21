@@ -1,5 +1,5 @@
 import {notify} from './std-js/functions.js';
-import {API, IMAGES_DIR, TEMPLATES} from './consts.js';
+import {API, IMAGES_DIR} from './consts.js';
 
 export async function init() {
 	if (sessionStorage.getItem('maintenance_upcoming') === '1') {
@@ -37,7 +37,7 @@ export async function init() {
 								image: item.vehicle_image === '' ? null : new URL(item.vehicle_image, IMAGES_DIR),
 								mileage: parseInt(item.current_mileage),
 								uid: parseInt(item.vehicles_uid),
-								maintenance: []
+								maintenance: [],
 							};
 							vehicles.push(vehicle);
 						}
@@ -65,6 +65,7 @@ export async function init() {
 					}, []);
 					console.log(vehicles);
 					console.info(json);
+					await customElements.whenDefined('maintenance-table');
 					maintenance.addItem(...json);
 					maintenance.hidden = false;
 				}
@@ -102,7 +103,17 @@ export async function loadTemplate(url) {
 	return doc.querySelector('template');
 }
 
-export async function initTemplates() {
-	const templates = await Promise.all(TEMPLATES.map(template => loadTemplate(template)));
+export async function initTemplates(...urls) {
+	const templates = await Promise.all(urls.map(template => loadTemplate(template)));
 	document.body.append(...templates);
+}
+
+export function defineElements(...elements) {
+	elements.filter(el => customElements.get(el.tag) === undefined).forEach(el => {
+		if (el.hasOwnProperty(parent)) {
+			customElements.define(el.tag, el.proto, {extends: parent});
+		} else {
+			customElements.define(el.tag, el.proto);
+		}
+	});
 }
