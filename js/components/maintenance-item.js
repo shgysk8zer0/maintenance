@@ -1,6 +1,7 @@
 import {ready, $} from '../std-js/functions.js';
 import {confirm, alert} from '../std-js/asyncDialog.js';
 import {IMAGES_DIR} from '../consts.js';
+import {createSlot} from '../functions.js';
 let template = null;
 
 export default class MaintenanceItem extends HTMLElement {
@@ -34,6 +35,24 @@ export default class MaintenanceItem extends HTMLElement {
 
 	set uid(uid) {
 		this.setAttribute('uid', uid);
+	}
+
+	set mileage(mileage) {
+		const meter = this.shadowRoot.querySelector('.miles-meter');
+		let milesEl = this.querySelector('[slot="mileage"]');
+
+		if (! (milesEl instanceof HTMLElement)) {
+			milesEl = createSlot('mileage');
+			this.append(milesEl);
+		}
+		milesEl.textContent = mileage;
+		this.shadowRoot.querySelector('.current-miles').textContent = mileage;
+		meter.value = mileage;
+	}
+
+	get mileage() {
+		const milesEl = this.querySelector('[slot="mileage"]');
+		return milesEl instanceof HTMLElement ? parseInt(milesEl.textContent) : NaN;
 	}
 
 	get uid() {
@@ -96,7 +115,13 @@ export default class MaintenanceItem extends HTMLElement {
 				`height=${event.target.naturalHeight},width=${event.target.naturalWidth}`
 			);
 		});
-		image.addEventListener('load', event => this.append(event.target));
+		image.addEventListener('load', event => {
+			const currentImg = this.querySelector('[slot="image"]');
+			currentImg instanceof HTMLElement
+				? currentImg.replaceWith(event.target)
+				: this.append(event.target);
+		});
+		image.addEventListener('error', event => console.error(event));
 	}
 
 	get image() {
@@ -120,8 +145,7 @@ export default class MaintenanceItem extends HTMLElement {
 		const tstamp = Date.parse(date);
 
 		if (! (dateEl instanceof HTMLElement)) {
-			dateEl = document.createElement('time');
-			dateEl.slot = 'due';
+			dateEl = createSlot('due', {tag: 'time'});
 			this.append(dateEl);
 		}
 
@@ -153,8 +177,7 @@ export default class MaintenanceItem extends HTMLElement {
 	set description(desc) {
 		let descEl = this.querySelector('[slot="description"]');
 		if (! (descEl instanceof HTMLElement)) {
-			descEl = document.createElement('span');
-			descEl.slot = 'description';
+			descEl = createSlot('description');
 			this.append(descEl);
 		}
 		descEl.textContent = desc;

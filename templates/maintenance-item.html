@@ -100,40 +100,12 @@
 		<span class="due">Due on: <slot name="due">No due date set</slot></span>
 		<meter class="due-meter" min="" high="" max="" value=""></meter>
 		<span class="mileage">Mileage: <slot name="mileage">NA</slot></span>
-		<meter class="miles-meter" min="0" high="80" max="100" max="87"></meter>
+		<meter class="miles-meter">
+			<span class="current-miles">NA</span>
+			<span>of</span>
+			<span class="due-miles">NA</span>
+		</meter>
 		<button type="button" class="btn-confirm done-btn" data-action="done">
-			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#check" />
-			</svg>
-		</button>
-		<button type="button" class="btn-reject delete-btn" data-action="delete">
-			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#trashcan" />
-			</svg>
-		</button>
-		<button type="button" class="btn edit-btn" data-action="edit">
-			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#settings" />
-			</svg>
-		</button>
-		<a role="button" href="#" class="inline-block call-btn">
-			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#call-start" />
-			</svg>
-		</a>
-	</div>
-</template>
-<template id="maintenance-item-template">
-	<div class="grid maintenance-item">
-		<svg class="current-color thumbnail">
-			<use xlink:href="img/icons.svg#car" />
-		</svg>
-		<b class="description"><slot name="description">No Description</slot></b>
-		<span class="due">Due on: <slot name="due">No due date set</slot></span>
-		<meter class="due-meter" min="" high="" max="" value=""></meter>
-		<span class="mileage">Mileage: <slot name="mileage">NA</slot></span>
-		<meter class="miles-meter" min="0" high="80" max="100" max="87"></meter>
-		<button type="button" class="btn-confirm done-btn" data-action="done-btn">
 			<svg class="current-color icon">
 				<use xlink:href="img/icons.svg#check" />
 			</svg>

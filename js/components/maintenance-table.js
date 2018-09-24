@@ -30,6 +30,7 @@ export default class MaintenanceTable extends HTMLElement {
 		item.priority = details.priority;
 		item.status = details.log_status;
 		item.vehicleUid = details.vehicles_uid;
+		item.mileage = details.current_mileage;
 		if (details.vehicle_image !== '') {
 			item.image = details.vehicle_image;
 		}

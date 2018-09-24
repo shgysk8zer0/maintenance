@@ -1,6 +1,18 @@
 import {notify} from './std-js/functions.js';
 import {API, IMAGES_DIR, TEMPLATES} from './consts.js';
 
+export function createSlot(name, {
+	tag = 'span',
+	text = '',
+	attrs = {},
+} ={}) {
+	const el = document.createElement(tag);
+	el.slot = name;
+	el.textContent = text;
+	Object.entries(attrs).forEach(([key, val]) => el.setAttribute(key, val));
+	return el;
+}
+
 export async function init() {
 	if (sessionStorage.getItem('maintenance_upcoming') === '1') {
 		const notification = await notify('Maintenance is required soon', {
