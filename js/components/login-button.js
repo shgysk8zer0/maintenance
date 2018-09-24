@@ -1,16 +1,25 @@
 export default class LoginButton extends HTMLButtonElement {
 	constructor() {
 		super();
-		this.addEventListener('click', this.login);
-		document.addEventListener('logout', () => this.hidden = false);
-		document.addEventListener('login', () => this.hidden = true);
-		this.hidden = sessionStorage.hasOwnProperty('token');
-	}
+		this.hidden = true;
+		this.addEventListener('click', async () => {
+			await customElements.whenDefined('login-form');
+			const detail = await document.querySelector('login-form').login();
+			document.dispatchEvent(new CustomEvent('login', {detail}));
+		});
 
-	async login() {
-		await customElements.whenDefined('login-form');
-		const detail = await document.querySelector('login-form').login();
-		document.dispatchEvent(new CustomEvent('login', {detail}));
+		document.addEventListener('logout', async () => {
+			await customElements.whenDefined('login-form');
+			this.hidden = false;
+		});
+
+		document.addEventListener('login', () => this.hidden = true);
+
+		customElements.whenDefined('login-form').then(() => {
+			if (! sessionStorage.hasOwnProperty('token')) {
+				this.hidden = false;
+			}
+		});
 	}
 }
 
