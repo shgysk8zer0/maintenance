@@ -73,12 +73,16 @@ export async function init() {
 			token: sessionStorage.getItem('token'),
 		};
 		try {
+			await customElements.whenDefined('svg-icons');
+			const icons = await document.querySelector('svg-icons').ready();
+			const icon = await icons.getUri('tools', {
+				height: 64,
+				width: 64,
+				fill: '#363636',
+			});
 			const notification = await notify('Maintenance is required soon', {
 				body: 'Click here to see scheduled maintenance',
-				icon: await getIcon('img/octicons/tools.svg', {
-					width: 64,
-					height: 64,
-				}),
+				icon,
 				tag: 'maintenance',
 				dir: 'ltr',
 				lang: 'en',
