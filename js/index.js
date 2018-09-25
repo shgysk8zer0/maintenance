@@ -13,7 +13,7 @@ import './components/svg-icons.js';
 
 registerServiceWorker('service-worker.js');
 
-ready().then(async () => {
+ready('login-form', 'login-button', 'logout-button').then(async () => {
 	document.documentElement.classList.replace('no-js', 'js');
 
 	document.addEventListener('login', event => {
