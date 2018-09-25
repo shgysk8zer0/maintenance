@@ -43,7 +43,23 @@
 			<span>&copy;</span>
 			<time is="current-year"></time>
 		</footer>
-		<login-form method="POST"></login-form>
+		<login-form method="POST">
+			<svg class="current-color icon" slot="user-icon">
+				<use xlink:href="/img/icons.svg#avatar-default" />
+			</svg>
+			<svg class="current-color icon" slot="password-icon">
+				<use xlink:href="/img/icons.svg#dialog-password" />
+			</svg>
+			<svg class="current-color icon" slot="sign-in-icon">
+				<use xlink:href="/img/icons.svg#sign-in" />
+			</svg>
+			<svg class="current-color icon" slot="cancel-icon">
+				<use xlink:href="/img/icons.svg#x" />
+			</svg>
+			<svg class="current-color icon" slot="copy-icon">
+				<use xlink:href="/img/icons.svg#clippy" />
+			</svg>
+		</login-form>
 		<svg-icons src="img/icons.svg"></svg-icons>
 	</body>
 </html>

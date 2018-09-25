@@ -1,4 +1,5 @@
 <template id="maintenance-item-template">
+	<base href="http://localhost:8000/" />
 	<style>
 		button, [role="button"] {
 			color: var(--button-color);
@@ -92,7 +93,7 @@
 		<span class="thumbnail">
 			<slot name="image">
 				<svg width="96" height="96">
-					<use xlink:href="img/icons.svg#image-x-generic" />
+					<use xlink:href="/img/icons.svg#image-x-generic" />
 				</svg>
 			</slot>
 		</span>
@@ -107,22 +108,22 @@
 		</meter>
 		<button type="button" class="btn-confirm done-btn" data-action="done">
 			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#check" />
+				<use xlink:href="/img/icons.svg#check" />
 			</svg>
 		</button>
 		<button type="button" class="btn-reject delete-btn" data-action="delete">
 			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#trashcan" />
+				<use xlink:href="/img/icons.svg#trashcan" />
 			</svg>
 		</button>
 		<button type="button" class="btn edit-btn" data-action="edit">
 			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#settings" />
+				<use xlink:href="/img/icons.svg#settings" />
 			</svg>
 		</button>
 		<a role="button" href="#" class="inline-block call-btn">
 			<svg class="current-color icon">
-				<use xlink:href="img/icons.svg#call-start" />
+				<use xlink:href="/img/icons.svg#call-start" />
 			</svg>
 		</a>
 	</div>

@@ -1,35 +1,70 @@
 <template id="login-template">
+	<base href="http://localhost:8000/" />
+	<style>
+		@import url("/css/core-css/element.css");
+		@import url("/css/core-css/class-rules.css");
+
+		.btn-reject {
+			--button-background: var(--button-reject-background);
+		}
+
+		.btn-confirm {
+			--button-background: var(--button-confirm-background);
+		}
+
+		dialog {
+			border: none;
+		}
+
+		input {
+			padding: 0.4em;
+		}
+
+		label {
+			margin: 0.3em;
+		}
+	</style>
 	<dialog class="animation-speed-normal animation-ease-in-out fadeInUp">
 		<form name="login">
 			<fieldset>
-				<legend>Login</legend>
+				<legend><slot name="legend">Login</slot></legend>
 				<label class="block">
-					<svg class="current-color icon">
-						<use xlink:href="img/icons.svg#avatar-default" />
-					</svg>
+					<slot name="user-icon">
+						<svg class="current-color icon">
+							<use xlink:href="/img/icons.svg#avatar-default" />
+						</svg>
+					</slot>
 					<input type="number" name="userid" autocomplete="username" min="100000" max="999999"  placeholder="######" required="" />
 				</label>
 				<label class="block">
-					<svg class="current-color icon">
-						<use xlink:href="img/icons.svg#dialog-password" />
-					</svg>
+					<slot name="password-icon">
+						<svg class="current-color icon">
+							<use xlink:href="/img/icons.svg#dialog-password" />
+						</svg>
+					</slot>
 					<input type="password" name="password" autocomplete="current-password" placeholder="********" minlength="8" required="" />
 					<button type="button" is="copy-button" target="form[name='login'] input[type='password']">
-						<svg class="current-color icon">
-							<use xlink:href="img/icons.svg#clippy" />
-						</svg>
+						<slot name="copy-icon">
+							<svg class="current-color icon">
+								<use xlink:href="/img/icons.svg#clippy" />
+							</svg>
+						</slot>
 					</button>
 				</label>
 			</fieldset>
 			<button type="submit" class="btn btn-confirm">
-				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#sign-in" />
-				</svg>
+				<slot name="sign-in-icon">
+					<svg class="current-color icon">
+						<use xlink:href="/img/icons.svg#sign-in" />
+					</svg>
+				</slot>
 			</button>
 			<button type="reset" class="btn btn-reject">
-				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#x" />
-				</svg>
+				<slot name="cancel-icon">
+					<svg class="current-color icon">
+						<use xlink:href="/img/icons.svg#x" />
+					</svg>
+				</slot>
 			</button>
 		</form>
 	</dialog>

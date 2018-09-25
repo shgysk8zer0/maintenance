@@ -7,7 +7,8 @@ export default class LoginForm extends HTMLElement {
 	constructor() {
 		super();
 		this.hidden = true;
-		this.append(document.getElementById('login-template').content.cloneNode(true));
+		this.attachShadow({mode: 'open'});
+		this.shadowRoot.appendChild(document.getElementById('login-template').content.cloneNode(true));
 
 		if (this.hasAttribute('action')) {
 			this.form.action = this.getAttribute('action');
@@ -24,11 +25,11 @@ export default class LoginForm extends HTMLElement {
 	}
 
 	set userid(userid) {
-		this.querySelector('[name="userid"]').value = userid;
+		this.shadowRoot.querySelector('[name="userid"]').value = userid;
 	}
 
 	set password(password) {
-		this.querySelector('[name="password"]').value = password;
+		this.shadowRoot.querySelector('[name="password"]').value = password;
 	}
 
 	get action() {
@@ -100,11 +101,11 @@ export default class LoginForm extends HTMLElement {
 	}
 
 	get dialog() {
-		return this.querySelector('dialog');
+		return this.shadowRoot.querySelector('dialog');
 	}
 
 	get form() {
-		return this.querySelector('form');
+		return this.shadowRoot.querySelector('form');
 	}
 
 	show() {
