@@ -55,6 +55,10 @@ export default class VehicleElement extends HTMLElement {
 		image.addEventListener('load', () => this.append(image));
 	}
 
+	get image() {
+		return this.getSlotNode('thumbnail');
+	}
+
 	set display(val) {
 		this.shadowRoot.querySelector('.vehicle').setAttribute('display', val);
 	}
