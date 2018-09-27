@@ -21,5 +21,15 @@ label {
 
 .vehicle-image {
 	border-radius: 2px;
-	box-shadow: 2px 2px 2px rgba(0,0,0,0.8)
+	box-shadow: 2px 2px 2px rgba(0,0,0,0.8);
 }
+
+vehicle-element {
+	width: 85vw;
+	margin: 0.75vw 1.5vw;
+}
+
+maintenance-item {
+	margin-bottom: 0.3rem;
+}
+

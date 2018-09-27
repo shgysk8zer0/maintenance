@@ -1,130 +1,132 @@
-<template id="maintenance-item-template">
-	<base href="http://localhost:8000/" />
-	<style>
-		button, [role="button"] {
-			color: var(--button-color);
-			background: var(--button-background);
-			border: var(--button-border);
-			padding: var(--button-padding);
-			border-radius: var(--button-border-radius);
-			cursor: pointer;
-		}
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<template id="maintenance-item-template">
+			<style>
+				button, [role="button"] {
+					color: var(--button-color);
+					background: var(--button-background);
+					border: var(--button-border);
+					padding: var(--button-padding);
+					border-radius: var(--button-border-radius);
+					cursor: pointer;
+				}
 
-		button:disabled {
-			color: var(--button-disabled-color);
-			background: var(--button-disabled-background);
-			cursor: not-allowed;
-		}
+				button:disabled {
+					color: var(--button-disabled-color);
+					background: var(--button-disabled-background);
+					cursor: not-allowed;
+				}
 
-		.current-color {
-			fill: currentColor;
-			color: inherit;
-		}
+				meter {
+					height: 1.7rem;
+				}
 
-		.icon {
-			height: 1em;
-			width: 1em;
-			vertical-align: middle;
-		}
+				.current-color {
+					fill: currentColor;
+					color: inherit;
+				}
 
-		.btn-confirm {
-			background: var(--button-confirm-background);
-		}
+				.icon {
+					height: 1em;
+					width: 1em;
+					vertical-align: middle;
+				}
 
-		.btn-reject {
-			background: var(--button-reject-background);
-		}
+				.btn-confirm {
+					background: var(--button-confirm-background);
+				}
 
-		.grid {
-			display: grid;
-		}
+				.btn-reject {
+					background: var(--button-reject-background);
+				}
 
-		.description {
-			grid-area: description;
-		}
+				.grid {
+					display: grid;
+				}
 
-		.thumbnail {
-			grid-area: thumbnail;
-		}
+				.description {
+					grid-area: description;
+				}
 
-		.due {
-			grid-area: due;
-		}
+				.due {
+					grid-area: due;
+				}
 
-		.due-meter {
-			grid-area: due-meter;
-		}
+				.due-meter {
+					grid-area: due-meter;
+				}
 
-		.done-btn {
-			grid-area: done;
-		}
+				.done-btn {
+					grid-area: done;
+				}
 
-		.delete-btn {
-			grid-area: delete;
-		}
+				.delete-btn {
+					grid-area: delete;
+				}
 
-		.edit-btn {
-			grid-area: edit;
-		}
+				.edit-btn {
+					grid-area: edit;
+				}
 
-		.call-btn {
-			grid-area: call;
-		}
+				.call-btn {
+					grid-area: call;
+				}
 
-		.mileage {
-			grid-area: miles;
-		}
+				.mileage {
+					grid-area: miles;
+				}
 
-		.miles-meter {
-			grid-area: miles-meter;
-		}
+				.miles-meter {
+					grid-area: miles-meter;
+				}
 
-		.maintenance-item {
-			grid-template-areas: 'thumbnail . due due-meter . . . .'
-			'thumbnail description . . done delete edit call'
-			'thumbnail . miles miles-meter . . . .';
-			grid-template-columns: 6fr 8fr 4fr 6fr 1fr 1fr 1fr 1fr;
-			grid-column-gap: 0.5em;
-			grid-row-gap: 0.23em;
-			max-width: 100vw;
-		}
-	</style>
-	<div class="grid maintenance-item">
-		<span class="thumbnail">
-			<slot name="image">
-				<svg width="96" height="96">
-					<use xlink:href="/img/icons.svg#image-x-generic" />
-				</svg>
-			</slot>
-		</span>
-		<b class="description"><slot name="description">No Description</slot></b>
-		<span class="due">Due on: <slot name="due">No due date set</slot></span>
-		<meter class="due-meter" min="" high="" max="" value=""></meter>
-		<span class="mileage">Mileage: <slot name="mileage">NA</slot></span>
-		<meter class="miles-meter">
-			<span class="current-miles">NA</span>
-			<span>of</span>
-			<span class="due-miles">NA</span>
-		</meter>
-		<button type="button" class="btn-confirm done-btn" data-action="done">
-			<svg class="current-color icon">
-				<use xlink:href="/img/icons.svg#check" />
-			</svg>
-		</button>
-		<button type="button" class="btn-reject delete-btn" data-action="delete">
-			<svg class="current-color icon">
-				<use xlink:href="/img/icons.svg#trashcan" />
-			</svg>
-		</button>
-		<button type="button" class="btn edit-btn" data-action="edit">
-			<svg class="current-color icon">
-				<use xlink:href="/img/icons.svg#settings" />
-			</svg>
-		</button>
-		<a role="button" href="#" class="inline-block call-btn">
-			<svg class="current-color icon">
-				<use xlink:href="/img/icons.svg#call-start" />
-			</svg>
-		</a>
-	</div>
-</template>
+				.maintenance-item {
+					grid-template-areas: '. due due-meter . . . .'
+					'description . . done delete edit call'
+					'. miles miles-meter . . . .';
+					grid-template-columns: 8fr 4fr 6fr 1fr 1fr 1fr 1fr;
+					grid-column-gap: 0.5em;
+					grid-row-gap: 0.23em;
+					max-width: 100vw;
+				}
+			</style>
+			<div class="grid maintenance-item">
+				<b class="description">
+					<slot name="description">No Description</slot>
+				</b>
+				<span class="due">Due on: <slot name="due">NA</slot></span>
+				<meter class="due-meter" min="" high="" max="" value=""></meter>
+				<span class="mileage">Mileage: <slot name="mileage">NA</slot></span>
+				<meter class="miles-meter">
+					<span class="current-miles">NA</span>
+					<span>of</span>
+					<span class="due-miles">NA</span>
+				</meter>
+				<button type="button" class="btn-confirm done-btn" data-action="done">
+					<svg class="current-color icon">
+						<use xlink:href="#check" />
+					</svg>
+				</button>
+				<button type="button" class="btn-reject delete-btn" data-action="delete">
+					<svg class="current-color icon">
+						<use xlink:href="#trashcan" />
+					</svg>
+				</button>
+				<button type="button" class="btn edit-btn" data-action="edit">
+					<svg class="current-color icon">
+						<use xlink:href="#settings" />
+					</svg>
+				</button>
+				<a role="button" href="#" class="inline-block call-btn">
+					<svg class="current-color icon">
+						<use xlink:href="#call-start" />
+					</svg>
+				</a>
+			</div>
+		</template>
+	</body>
+</html>

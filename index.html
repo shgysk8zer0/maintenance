@@ -18,48 +18,56 @@
 		<link rel="preload" href="img/icons.svg" as="image" type="image/svg+xml" />
 		<link rel="dns-prefetch" href="https://www.vrmtel.net" />
 		<link rel="stylesheet" href="css/styles/index.css" />
+		<!-- <link rel="import" name="MaintenanceTable" href="templates/maintenance-table.html" async="" /> -->
+		<link rel="import" name="MaintenanceItem" href="templates/maintenance-item.html" async="" />
+		<link rel="import" name="LoginForm" href="templates/login-form.html" async="" />
+		<link rel="import" name="VehicleElement" href="templates/vehicle-element.html" async="" />
+		<link rel="import" name="icons" href="img/icons.svg" async="" />
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
 		<header id="header">
 			<button type="button" title="Sign In" is="login-button" hidden="">
 				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#sign-in" />
+					<use xlink:href="#sign-in" />
 				</svg>
 			</button>
 			<button type="button" title="Sign Out" is="logout-button" hidden="">
 				<svg class="current-color icon">
-					<use xlink:href="img/icons.svg#sign-out" />
+					<use xlink:href="#sign-out" />
 				</svg>
 			</button>
 		</header>
 		<main id="main">
-			<maintenance-table hidden="">
-				<div slot="scheduled" class="card"></div>
-				<div slot="pending" class="card"></div>
-				<div slot="unscheduled" class="card"></div>
-			</maintenance-table>
+			<noscript class="card block shadow center">
+				<h2>JavaScript support is required</h2>
+				<p>Please enable JavaScript in your browser.</p>
+			</noscript>
+			<!-- <maintenance-table hidden=""> -->
+			<!-- 	<div slot="scheduled" class="card"></div> -->
+			<!-- 	<div slot="pending" class="card"></div> -->
+			<!-- 	<div slot="unscheduled" class="card"></div> -->
+			<!-- </maintenance-table> -->
 		</main>
-		<footer id="footer">
+		<footer id="footer" class="color-alt">
 			<span>&copy;</span>
 			<time is="current-year"></time>
 		</footer>
 		<login-form method="POST">
 			<svg class="current-color icon" slot="user-icon">
-				<use xlink:href="/img/icons.svg#avatar-default" />
+				<use xlink:href="#avatar-default" />
 			</svg>
 			<svg class="current-color icon" slot="password-icon">
-				<use xlink:href="/img/icons.svg#dialog-password" />
+				<use xlink:href="#dialog-password" />
 			</svg>
 			<svg class="current-color icon" slot="sign-in-icon">
-				<use xlink:href="/img/icons.svg#sign-in" />
+				<use xlink:href="#sign-in" />
 			</svg>
 			<svg class="current-color icon" slot="cancel-icon">
-				<use xlink:href="/img/icons.svg#x" />
+				<use xlink:href="#x" />
 			</svg>
 			<svg class="current-color icon" slot="copy-icon">
-				<use xlink:href="/img/icons.svg#clippy" />
+				<use xlink:href="#clippy" />
 			</svg>
 		</login-form>
-		<svg-icons src="img/icons.svg"></svg-icons>
 	</body>
 </html>

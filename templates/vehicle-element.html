@@ -1,13 +1,51 @@
-<template id="vehicle-element-template">
-	<div>
-		<b><slot name="name"></slot></b>
-		<slot name="thumbnail">
-			<svg width="128" height="128">
-				<use xlink:href="/img/icons.svg#image-x-generic" />
-			</svg>
-		</slot>
-		<slot name="maintenance-items">
-			<b>No Maintenance Required</b>
-		</slot>
-	</div>
-</template>
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+	</head>
+	<body>
+		<template id="vehicle-element-template">
+			<style>
+				.vehicle {
+					display: grid;
+					background: var(--primary-background);
+					color: var(--default-color);
+					font-family: var(--main-font);
+					grid-template-rows: 8fr 2fr;
+					grid-template-columns: 2fr 8fr;
+					grid-template-areas: "thumbnail maintenance"
+						"name maintenance";
+				}
+
+				.thumbnail {
+					grid-area: thumbnail;
+				}
+
+				.name {
+					grid-area: name;
+				}
+
+				.maintenance {
+					grid-area: maintenance;
+				}
+			</style>
+			<div class="vehicle container">
+				<div class="thumbnail">
+					<slot name="thumbnail">
+						<svg width="128" height="128">
+							<use xlink:href="#image-x-generic" />
+						</svg>
+					</slot>
+				</div>
+				<b class="name">
+					<slot name="name"></slot>
+				</b>
+				<div class="maintenance">
+					<slot name="maintenance-item">
+						<b>No Maintenance Required</b>
+					</slot>
+				</div>
+			</div>
+		</template>
+	</body>
+</html>

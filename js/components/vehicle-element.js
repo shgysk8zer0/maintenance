@@ -1,27 +1,28 @@
 import {IMAGES_DIR} from '../consts.js';
-import MaintenanceItem from './maintenance-item.js';
-
+import {importLink} from '../functions.js';
 export default class VehicleElement extends HTMLElement {
 	constructor() {
 		super();
-		const template = document.getElementById('vehicle-element-template').content;
-		const items = document.createElement('div');
-		items.slot = 'maintenance-items';
-		this.append(items);
+		const template = document.getElementById('vehicle-element-template');
 		this.attachShadow({mode: 'open'});
-		this.shadowRoot.appendChild(template.cloneNode(true));
+		this.shadowRoot.appendChild(document.importNode(template.content, true));
+		document.addEventListener('logout', () => this.remove());
 	}
 
 	set name(name) {
-		let nameEl = this.querySelector('[slot="name"]');
+		let nameEl = this.getSlotNode('name');
 
 		if (! (nameEl instanceof HTMLElement)) {
 			nameEl = document.createElement('span');
-			nameEl.textContent = name;
+			nameEl.slot = 'name';
 			this.append(nameEl);
-		} else {
-			nameEl.textContent = name;
 		}
+		nameEl.textContent = name;
+	}
+
+	get name() {
+		const nameEl = this.getSlotNode('name');
+		return nameEl instanceof HTMLElement ? nameEl.textContent : null;
 	}
 
 	set uid(uid) {
@@ -40,25 +41,65 @@ export default class VehicleElement extends HTMLElement {
 		return this.getAttribute('mileage');
 	}
 
-	get name() {
-		const nameEl = this.querySelector('[slot="name"]');
-		return nameEl instanceof HTMLElement ? nameEl.textContent : null;
-	}
-
-	addItem(...items) {
-		items.forEach(item => {
-			if (item instanceof MaintenanceItem) {
-				this.querySelector('[slot="maintenance-items"]').append(item);
-			} else {
-				throw new Error('Attempting to add a non-MaintenanceItem to a vehicle');
-			}
-		});
-	}
-
 	set image(img) {
-		const image = new Image();
+		const image = new Image(128, 180);
 		image.slot = 'thumbnail';
 		image.src = new URL(img, IMAGES_DIR);
+
+		if (this.hasSlotNode('thumbnail')) {
+			this.getSlotNode('thumbnail').remove();
+		}
 		image.addEventListener('load', () => this.append(image));
 	}
+
+	set display(val) {
+		this.shadowRoot.querySelector('.vehicle').setAttribute('display', val);
+	}
+
+	get display() {
+		return this.shadowRoot.querySelector('.vehicle').getAttribute('display');
+	}
+
+	get maintenanceItems() {
+		return [...this.querySelectorAll('[slot="maintenance-item"]')];
+	}
+
+	get slots() {
+		return [...this.shadowRoot.querySelectorAll('slot')];
+	}
+
+	get slotNames() {
+		return this.slots.map(slot => slot.name);
+	}
+
+	hasSlot(name) {
+		return this.slotNames.includes(name);
+	}
+
+	getSlot(name) {
+		return this.slots.find(slot => slot.name === name);
+	}
+
+	getSlotNodes(name) {
+		const slot = this.getSlot(name);
+		if (slot instanceof HTMLElement) {
+			return slot.assignedNodes();
+		} else {
+			return [];
+		}
+	}
+
+	getSlotNode(name, i = 0) {
+		const nodes = this.getSlotNodes(name);
+		return nodes.length > i ? nodes[i] : undefined;
+	}
+
+	hasSlotNode(name) {
+		return this.getSlotNodes(name).length !== 0;
+	}
 }
+
+importLink('VehicleElement').then(content => {
+	document.body.append(...content.body.children);
+	customElements.define('vehicle-element', VehicleElement);
+}).catch(console.error);

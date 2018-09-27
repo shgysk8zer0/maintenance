@@ -1,6 +1,5 @@
 import MaintenanceItem from './maintenance-item.js';
-const TEMPLATE = new URL('/templates/maintenance-table.html', document.baseURI);
-const TAG = 'maintenance-table';
+import {importLink} from '../functions.js';
 
 export default class MaintenanceTable extends HTMLElement {
 	constructor(items = []) {
@@ -103,10 +102,7 @@ export default class MaintenanceTable extends HTMLElement {
 	}
 }
 
-fetch(TEMPLATE).then(async resp => {
-	const parser = new DOMParser();
-	const html = await resp.text();
-	const doc = parser.parseFromString(html, 'text/html');
-	document.body.append(...doc.querySelectorAll('template'));
-	customElements.define(TAG, MaintenanceTable);
-});
+importLink('MaintenanceTable').then(content => {
+	document.body.append(...content.body.children);
+	customElements.define('maintenance-Table', MaintenanceTable);
+}).catch(console.error);

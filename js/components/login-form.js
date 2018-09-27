@@ -1,14 +1,14 @@
 import {$} from '../std-js/functions.js';
 import {API} from '../consts.js';
-const TEMPLATE = new URL('/templates/login-form.html', document.baseURI);
-const TAG = 'login-form';
+import {importLink} from '../functions.js';
 
 export default class LoginForm extends HTMLElement {
 	constructor() {
 		super();
 		this.hidden = true;
 		this.attachShadow({mode: 'open'});
-		this.shadowRoot.appendChild(document.getElementById('login-template').content.cloneNode(true));
+		const template = document.getElementById('login-template');
+		this.shadowRoot.appendChild(document.importNode(template.content, true));
 
 		if (this.hasAttribute('action')) {
 			this.form.action = this.getAttribute('action');
@@ -124,10 +124,7 @@ export default class LoginForm extends HTMLElement {
 	}
 }
 
-fetch(TEMPLATE).then(async resp => {
-	const parser = new DOMParser();
-	const html = await resp.text();
-	const doc = parser.parseFromString(html, 'text/html');
-	document.body.append(...doc.querySelectorAll('template'));
-	customElements.define(TAG, LoginForm);
-});
+importLink('LoginForm').then(content => {
+	document.body.append(...content.body.children);
+	customElements.define('login-form', LoginForm);
+}).catch(console.error);
