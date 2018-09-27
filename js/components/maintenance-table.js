@@ -1,5 +1,5 @@
 import MaintenanceItem from './maintenance-item.js';
-import {importLink} from '../functions.js';
+import {importLink} from '../std-js/functions.js';
 
 export default class MaintenanceTable extends HTMLElement {
 	constructor(items = []) {

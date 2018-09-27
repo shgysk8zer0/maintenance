@@ -1,8 +1,7 @@
-import './shims.js';
 import './std-js/deprefixer.js';
 import './std-js/shims.js';
-import {ready, registerServiceWorker} from './std-js/functions.js';
-import {init, importLink} from './functions.js';
+import {ready, registerServiceWorker, importLink} from './std-js/functions.js';
+import {init} from './functions.js';
 import './components/login-button.js';
 import './components/logout-button.js';
 // import './components/maintenance-table.js';

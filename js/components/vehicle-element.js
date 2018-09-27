@@ -1,5 +1,6 @@
 import {IMAGES_DIR} from '../consts.js';
-import {importLink} from '../functions.js';
+import {importLink} from '../std-js/functions.js';
+
 export default class VehicleElement extends HTMLElement {
 	constructor() {
 		super();

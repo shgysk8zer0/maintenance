@@ -1,6 +1,6 @@
-import {$} from '../std-js/functions.js';
+import {$, importLink} from '../std-js/functions.js';
 import {confirm, alert} from '../std-js/asyncDialog.js';
-import {createSlot, importLink} from '../functions.js';
+import {createSlot} from '../functions.js';
 
 export default class MaintenanceItem extends HTMLElement {
 	constructor() {

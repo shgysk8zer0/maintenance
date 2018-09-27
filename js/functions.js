@@ -4,22 +4,6 @@ import {confirm} from './std-js/asyncDialog.js';
 import VehicleElement from './components/vehicle-element.js';
 import MaintenanceItem from './components/maintenance-item.js';
 
-export async function importLink(name) {
-	return new Promise(async (resolve, reject) => {
-		const link = document.querySelector(`link[rel="import"][name="${name}"]`);
-		if (link instanceof HTMLLinkElement) {
-			if (link.import === null) {
-				link.addEventListener('load', event => resolve(event.target.import), {once: true});
-				link.addEventListener('error', event => reject(event), {once: true});
-			} else {
-				resolve(link.import);
-			}
-		} else {
-			reject(new Error(`Link named "${name}" not found`));
-		}
-	});
-}
-
 export function createSlot(name, {
 	tag = 'span',
 	text = '',
@@ -121,7 +105,10 @@ export async function init() {
 		try {
 			const notification = await notify('Maintenance is required soon', {
 				body: 'Click here to see scheduled maintenance',
-				icon: new URL('img/octicons/tools.svg', document.baseURI),
+				icon: getIcon('tools', {
+					width: 64,
+					height: 64,
+				}),
 				tag: 'maintenance',
 				dir: 'ltr',
 				lang: 'en',
@@ -144,23 +131,42 @@ export async function init() {
 	}
 }
 
-export async function getIcon(path, {
+export function getSprite(sprite, {
 	fill = '#363636',
 	height = null,
 	width = null,
 } = {}) {
-	const iconResp = await fetch(new URL(path, document.baseURI));
-	const parser = new DOMParser();
-	const body = await iconResp.text();
-	const icon = parser.parseFromString(body, 'image/svg+xml');
-	if (! Number.isNaN(width)) {
-		icon.documentElement.setAttribute('width', width);
+	const symbol = document.getElementById(sprite);
+	if (symbol instanceof SVGSymbolElement) {
+		const clone = symbol.cloneNode(true);
+		const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+		svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+		svg.setAttribute('version', '1.1');
+		if (clone.hasAttribute('viewBox')) {
+			svg.setAttribute('viewBox', symbol.getAttribute('viewBox'));
+		}
+		if (! Number.isNaN(width)) {
+			svg.setAttribute('width', width);
+		}
+		if (! Number.isNaN(height)) {
+			svg.setAttribute('height', height);
+		}
+		[...clone.children].forEach(child => {
+			svg.appendChild(child).setAttribute('fill', fill);
+		});
+		return svg;
+	} else {
+		throw new Error(`Could not find sprite "${sprite}"`);
 	}
-	if (! Number.isNaN(height)) {
-		icon.documentElement.setAttribute('height', height);
-	}
-	icon.documentElement.firstElementChild.setAttribute('fill', fill);
-	return `data:image/svg+xml;base64,${btoa(icon.documentElement.outerHTML)}`;
+}
+
+export function getIcon(sprite, {
+	fill = '#363636',
+	height = null,
+	width = null,
+} = {}) {
+	const svg = getSprite(sprite, {fill, height, width});
+	return `data:image/svg+xml;base64,${btoa(svg.outerHTML)}`;
 }
 
 export async function whenDefined(...els) {
