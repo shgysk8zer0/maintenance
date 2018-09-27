@@ -31,7 +31,7 @@ export default class VehicleElement extends HTMLElement {
 	}
 
 	get uid() {
-		return this.getAttribute('uid');
+		return parseInt(this.getAttribute('uid'));
 	}
 
 	set mileage(mileage) {
@@ -39,7 +39,9 @@ export default class VehicleElement extends HTMLElement {
 	}
 
 	get mileage() {
-		return this.getAttribute('mileage');
+		return  this.hasAttribute('mileage')
+			? parseInt(this.getAttribute('mileage'))
+			: NaN;
 	}
 
 	set image(img) {

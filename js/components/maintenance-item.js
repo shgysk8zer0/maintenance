@@ -52,7 +52,7 @@ export default class MaintenanceItem extends HTMLElement {
 	}
 
 	get uid() {
-		return this.getAttribute('uid');
+		return parseInt(this.getAttribute('uid'));
 	}
 
 	set priority(priority) {
