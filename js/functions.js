@@ -4,6 +4,10 @@ import {confirm} from './std-js/asyncDialog.js';
 import VehicleElement from './components/vehicle-element.js';
 import MaintenanceItem from './components/maintenance-item.js';
 
+export function validDate(date) {
+	return date instanceof Date && ! Number.isNaN(Date.parse(date));
+}
+
 export function createSlot(name, {
 	tag = 'span',
 	text = '',
@@ -64,6 +68,8 @@ async function fillMaintenanceTable(url) {
 		console.info(json);
 		// await customElements.whenDefined('maintenance-table');
 		await customElements.whenDefined('vehicle-element');
+		await customElements.whenDefined('maintenance-item');
+
 		const els = vehicles.map(vehicle => {
 			const el = new VehicleElement();
 			const items = vehicle.maintenance.map(item => {
@@ -73,8 +79,10 @@ async function fillMaintenanceTable(url) {
 				el.uid = item.uid;
 				el.status = item.status;
 				el.priority = item.priority;
-				el.mileage = vehicle.mileage;
 				try {
+					el.mileage = vehicle.mileage;
+					el.previousMileage = item.lastService.miles;
+					el.mileageDue = item.scheduled.miles;
 					el.due = item.scheduled.date || new Date();
 					el.previous = item.lastService.date || new Date();
 				} catch (err) {

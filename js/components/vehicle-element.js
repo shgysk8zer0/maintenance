@@ -68,7 +68,11 @@ export default class VehicleElement extends HTMLElement {
 	}
 
 	get maintenanceItems() {
-		return [...this.querySelectorAll('[slot="maintenance-item"]')];
+		return this.getSlotNodes('maintenance-item');
+	}
+
+	get dueItems() {
+		return this.maintenanceItems.filter(item => item.isDue);
 	}
 
 	get slots() {

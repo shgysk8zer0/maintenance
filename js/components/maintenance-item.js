@@ -1,6 +1,6 @@
 import {$, importLink} from '../std-js/functions.js';
 import {confirm, alert} from '../std-js/asyncDialog.js';
-import {createSlot} from '../functions.js';
+import {createSlot, validDate} from '../functions.js';
 
 export default class MaintenanceItem extends HTMLElement {
 	constructor() {
@@ -11,7 +11,7 @@ export default class MaintenanceItem extends HTMLElement {
 		const template = document.getElementById('maintenance-item-template');
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
-		this.shadowRoot.querySelector('meter').value = Date.parse(new Date());
+		this.dateMeter.value = Date.parse(new Date());
 
 		$('[data-action="delete"]', this.shadowRoot).click(async () => {
 			if (await confirm('Are you sure you want to delete this item?')) {
@@ -23,10 +23,14 @@ export default class MaintenanceItem extends HTMLElement {
 			event.target.closest('[data-action="done"]').disabled = true;
 			this.dataset.status = 'completed';
 			this.previous = new Date();
-			this.closest('maintenance-table').scheduled.append(this);
+			// this.closest('maintenance-table').scheduled.append(this);
 		});
 
 		$('[data-action="edit"]', this.shadowRoot).click(() => alert('Not yet implemented'));
+	}
+
+	get isDue() {
+		return new Date() > this.due;
 	}
 
 	set uid(uid) {
@@ -34,21 +38,68 @@ export default class MaintenanceItem extends HTMLElement {
 	}
 
 	set mileage(mileage) {
-		const meter = this.shadowRoot.querySelector('.miles-meter');
-		let milesEl = this.querySelector('[slot="mileage"]');
+		const meter = this.mileageMeter;
+		let milesEl = this.findSlotNode('mileage');
 
 		if (! (milesEl instanceof HTMLElement)) {
 			milesEl = createSlot('mileage');
 			this.append(milesEl);
 		}
 		milesEl.textContent = mileage;
-		this.shadowRoot.querySelector('.current-miles').textContent = mileage;
+		$('.current-miles', this.shadowRoot).text(mileage);
 		meter.value = mileage;
+		console.log({meter, milesEl, mileage});
 	}
 
 	get mileage() {
-		const milesEl = this.querySelector('[slot="mileage"]');
+		const milesEl = this.findSlotNode('mileage');
 		return milesEl instanceof HTMLElement ? parseInt(milesEl.textContent) : NaN;
+	}
+
+	get mileageDue() {
+		const el = this.findSlotNode('mileage-due');
+		return el instanceof HTMLElement ? parseInt(el.textContent) : NaN;
+	}
+
+	set mileageDue(miles) {
+		if (! Number.isNaN(miles)) {
+			const meter = this.mileageMeter;
+			const previous = this.previousMileage;
+			let milesEl = this.findSlotNode('mileage-due');
+
+			if (! (milesEl instanceof HTMLElement)) {
+				milesEl = createSlot('mileage-due');
+				this.append(milesEl);
+			}
+			milesEl.textContent = miles;
+			$('.mileage-due', this.shadowRoot).text(miles);
+			meter.max = miles;
+			if (! Number.isNaN(previous)) {
+				meter.high = previous + 0.8 * (miles - previous);
+			}
+		}
+	}
+
+	set previousMileage(miles) {
+		if (typeof miles === 'number' && ! Number.isNaN(miles)) {
+			let el = this.findSlotNode('mileage-previous');
+			const meter = this.mileageMeter;
+
+			if (! (el instanceof HTMLElement)) {
+				el = document.createElement('span');
+				el.slot = 'mileage-previous';
+				this.append(el);
+			}
+
+			$('.mileage-previous', this.shadowRoot).text(miles);
+			el.textContent = miles;
+			meter.low = miles;
+		}
+	}
+
+	get previousMileage() {
+		const el = this.findSlotNode('mileage-previous');
+		return el instanceof HTMLElement ? parseInt(el.textContent) : NaN;
 	}
 
 	get uid() {
@@ -60,7 +111,7 @@ export default class MaintenanceItem extends HTMLElement {
 	}
 
 	get priority() {
-		return parseInt(this.getAttribute('priority'));
+		return this.hasAttribute('priority') ? parseInt(this.getAttribute('priority')): NaN;
 	}
 
 	set status(status) {
@@ -71,13 +122,25 @@ export default class MaintenanceItem extends HTMLElement {
 		return this.getAttribute('status');
 	}
 
+	get due() {
+		const dateEl = this.findSlotNode('due');
+
+		if (dateEl instanceof HTMLTimeElement) {
+			return new Date(dateEl.dateTime);
+		} else if (dateEl instanceof HTMLElement) {
+			return new Date(dateEl.innerHTML);
+		} else {
+			return undefined;
+		}
+	}
+
 	set due(date) {
-		let dateEl = this.querySelector('[slot="due"]');
+		let dateEl = this.findSlotNode('due');
 
 		if (! (date instanceof Date)) {
 			date = new Date(date);
 		}
-		if (! Number.isNaN(date.getTime())) {
+		if (validDate(date)) {
 			const tstamp = Date.parse(date);
 
 			if (! (dateEl instanceof HTMLElement)) {
@@ -87,7 +150,7 @@ export default class MaintenanceItem extends HTMLElement {
 
 			dateEl.textContent = date.toLocaleDateString();
 			dateEl.dateTime = date.toISOString();
-			const prog = this.shadowRoot.querySelector('meter');
+			const prog = this.dateMeter;
 			prog.max = tstamp;
 			prog.high = tstamp - 14 * 24 * 60 * 60;
 		}
@@ -97,22 +160,14 @@ export default class MaintenanceItem extends HTMLElement {
 		if (! (date instanceof Date)) {
 			date = new Date(date);
 		}
-		this.shadowRoot.querySelector('meter').min = Date.parse(date);
-	}
-
-	get due() {
-		const dateEl = this.querySelector('[slot="due"]');
-		if (dateEl instanceof HTMLTimeElement) {
-			return new Date(dateEl.dateTime);
-		} else if (dateEl instanceof HTMLElement) {
-			return new Date(dateEl.innerHTML);
-		} else {
-			throw new Error('No due date set');
+		if (! validDate(date)) {
+			this.shadowRoot.querySelector('meter').min = Date.parse(date);
 		}
 	}
 
 	set description(desc) {
-		let descEl = this.querySelector('[slot="description"]');
+		let descEl = this.findSlotNode('description');
+
 		if (! (descEl instanceof HTMLElement)) {
 			descEl = createSlot('description');
 			this.append(descEl);
@@ -121,7 +176,36 @@ export default class MaintenanceItem extends HTMLElement {
 	}
 
 	get description() {
-		return this.querySelector('[slot="description"]').textContent;
+		return this.findSlotNodes('description').textContent;
+	}
+
+	get mileageMeter() {
+		return this.shadowRoot.querySelector('.miles-meter');
+	}
+
+	get dateMeter() {
+		return this.shadowRoot.querySelector('.due-meter');
+	}
+
+	get slots() {
+		return Array.from(this.shadowRoot.querySelectorAll('slot'));
+	}
+
+	findSlot(name) {
+		return this.slots.find(slot => slot.name === name);
+	}
+
+	findSlotNodes(name) {
+		const slot = this.findSlot(name);
+		if (slot instanceof HTMLElement) {
+			return slot.assignedNodes();
+		} else {
+			return [];
+		}
+	}
+
+	findSlotNode(name, i = 0) {
+		return this.findSlotNodes(name)[i];
 	}
 }
 

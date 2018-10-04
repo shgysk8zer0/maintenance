@@ -4,7 +4,6 @@ import {ready, registerServiceWorker, importLink} from './std-js/functions.js';
 import {init} from './functions.js';
 import './components/login-button.js';
 import './components/logout-button.js';
-// import './components/maintenance-table.js';
 import './components/vehicle-element.js';
 import './components/maintenance-item.js';
 import './components/login-form.js';
