@@ -49,11 +49,23 @@ export default class VehicleElement extends HTMLElement {
 		const image = new Image(128, 180);
 		image.slot = 'thumbnail';
 		image.src = new URL(img, IMAGES_DIR);
+		image.alt = this.name;
+		image.classList.add('cursor-pointer');
 
 		if (this.hasSlotNode('thumbnail')) {
 			this.getSlotNode('thumbnail').remove();
 		}
-		image.addEventListener('load', () => this.append(image));
+
+		image.addEventListener('load', () => {
+			this.append(image);
+			image.addEventListener('click', () => {
+				window.open(
+					image.src,
+					image.alt,
+					`height=${image.naturalHeight},width=${image.naturalWidth},noopener`
+				);
+			});
+		});
 	}
 
 	get image() {
