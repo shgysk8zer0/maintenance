@@ -1,6 +1,6 @@
 import './std-js/deprefixer.js';
 import './std-js/shims.js';
-import {ready, registerServiceWorker, importLink} from './std-js/functions.js';
+import {ready, registerServiceWorker, importLink, $} from './std-js/functions.js';
 import {init} from './functions.js';
 import './components/login-button.js';
 import './components/logout-button.js';
@@ -20,6 +20,19 @@ importLink('icons').then(icons => {
 
 ready('login-button', 'logout-button').then(async () => {
 	document.documentElement.classList.replace('no-js', 'js');
+	window.addEventListener('offline', () => {
+		document.documentElement.classList.add('offline');
+		document.documentElement.classList.add('online');
+		$('.online-only').hide();
+		$('.offline-only').unhide();
+	});
+
+	window.addEventListener('online', () => {
+		document.documentElement.classList.add('online');
+		document.documentElement.classList.add('offline');
+		$('.online-only').unhide();
+		$('.offline-only').hide();
+	});
 
 	document.addEventListener('login', event => {
 		Object.entries(event.detail).forEach(([key, value]) => {

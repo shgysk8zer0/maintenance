@@ -4,6 +4,7 @@ import {importLink} from '../std-js/functions.js';
 export default class VehicleElement extends HTMLElement {
 	constructor() {
 		super();
+		this.classList.add('online-only');
 		const template = document.getElementById('vehicle-element-template');
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
