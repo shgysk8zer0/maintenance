@@ -48,7 +48,6 @@ export default class MaintenanceItem extends HTMLElement {
 		milesEl.textContent = mileage;
 		$('.current-miles', this.shadowRoot).text(mileage);
 		meter.value = mileage;
-		console.log({meter, milesEl, mileage});
 	}
 
 	get mileage() {
