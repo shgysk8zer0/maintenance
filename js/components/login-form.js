@@ -1,4 +1,3 @@
-import {$} from '../std-js/functions.js';
 import {API} from '../consts.js';
 import {importLink} from '../std-js/functions.js';
 
@@ -22,6 +21,15 @@ export default class LoginForm extends HTMLElement {
 		}
 
 		this.form.addEventListener('reset', () => this.close());
+	}
+
+	static get loggedIn() {
+		return sessionStorage.hasOwnProperty('token');
+	}
+
+	static logOut() {
+		sessionStorage.clear();
+		document.dispatchEvent(new CustomEvent('logout'));
 	}
 
 	set userid(userid) {
@@ -55,6 +63,7 @@ export default class LoginForm extends HTMLElement {
 			this.showModal();
 			this.form.addEventListener('submit', async event => {
 				event.preventDefault();
+
 				try {
 					const headers = new Headers();
 					const form = new FormData(event.target);
@@ -76,8 +85,6 @@ export default class LoginForm extends HTMLElement {
 							reject(new Error(`${json.message} [${json.error}]`));
 						}
 						resolve(json);
-						$('[data-action="login"]').hide();
-						$('[data-action="logout"]').unhide();
 						this.close();
 						this.reset();
 						document.dispatchEvent(new CustomEvent('login', {detail: json}));
@@ -90,6 +97,7 @@ export default class LoginForm extends HTMLElement {
 			}, {
 				once: true,
 			});
+
 			this.form.addEventListener('reset', () => {
 				reject(new Error('Login cancelled'));
 			}, {once: true});

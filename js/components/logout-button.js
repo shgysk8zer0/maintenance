@@ -1,10 +1,13 @@
 export default class LogoutButton extends HTMLButtonElement {
 	constructor() {
 		super();
-		this.addEventListener('click', () => document.dispatchEvent(new CustomEvent('logout')));
+		customElements.whenDefined('login-form').then(() => {
+			const LoginForm = customElements.get('login-form');
+			this.hidden = ! LoginForm.loggedIn;
+			this.addEventListener('click', LoginForm.logOut);
+		});
 		document.addEventListener('logout', () => this.hidden = true);
 		document.addEventListener('login', () => this.hidden = false);
-		this.hidden = ! sessionStorage.hasOwnProperty('token');
 	}
 }
 
