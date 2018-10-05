@@ -23,6 +23,9 @@ export default class MaintenanceItem extends HTMLElement {
 			event.target.closest('[data-action="done"]').disabled = true;
 			this.dataset.status = 'completed';
 			this.previous = new Date();
+			this.dateMeter.min = Date.parse(new Date());
+			this.previousMileage = this.mileage;
+			this.mileageDue = this.mileage + this.repeatMiles;
 			// this.closest('maintenance-table').scheduled.append(this);
 		});
 
@@ -48,6 +51,26 @@ export default class MaintenanceItem extends HTMLElement {
 		milesEl.textContent = mileage;
 		$('.current-miles', this.shadowRoot).text(mileage);
 		meter.value = mileage;
+	}
+
+	set repeatMiles(miles) {
+		this.setAttribute('repeat-miles', miles);
+	}
+
+	get repeatMiles() {
+		return this.hasAttribute('repeat-miles')
+			? parseInt(this.getAttribute('repeat-miles'))
+			: NaN;
+	}
+
+	set repeatDays(days) {
+		this.setAttribute('repeat-days', days);
+	}
+
+	get repeatDays() {
+		return this.hasAttribute('repeat-days')
+			? parseInt(this.getAttribute('repeat-days'))
+			: NaN;
 	}
 
 	get mileage() {
@@ -92,7 +115,7 @@ export default class MaintenanceItem extends HTMLElement {
 
 			$('.mileage-previous', this.shadowRoot).text(miles);
 			el.textContent = miles;
-			meter.low = miles;
+			meter.min = miles;
 		}
 	}
 

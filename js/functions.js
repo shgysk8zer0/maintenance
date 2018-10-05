@@ -79,6 +79,7 @@ async function fillMaintenanceTable(url) {
 				el.uid = item.uid;
 				el.status = item.status;
 				el.priority = item.priority;
+				el.repeatMiles = item.frequencyMiles;
 				try {
 					el.mileage = vehicle.mileage;
 					el.previousMileage = item.lastService.miles;
