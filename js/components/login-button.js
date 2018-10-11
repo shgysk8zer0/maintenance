@@ -8,11 +8,8 @@ export default class LoginButton extends HTMLButtonElement {
 
 		customElements.whenDefined('login-form').then(() => {
 			const LoginForm = customElements.get('login-form');
-			console.log(LoginForm);
 			this.hidden = LoginForm.loggedIn;
-			this.addEventListener('click', () => {
-				document.querySelector('login-form').login();
-			});
+			this.addEventListener('click', () => document.querySelector('login-form').login());
 		});
 	}
 }
