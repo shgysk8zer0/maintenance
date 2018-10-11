@@ -7,7 +7,7 @@ export default class MaintenanceItem extends HTMLElement {
 		super();
 		this.dataset.status = 'incomplete';
 		this.classList.add('block', 'card');
-		const icons = document.querySelector('svg[hidden]');
+		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg').cloneNode(true);
 
 		const template = document.getElementById('maintenance-item-template');
 		this.attachShadow({mode: 'open'});

@@ -10,12 +10,14 @@ export default class MaintenanceTable extends HTMLElement {
 			this.clear();
 		});
 
+		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg');
+
 		this.attachShadow({mode: 'open'});
 		const template = document.getElementById('maintenance-table-template').content;
 		const container = document.createElement('div');
-		container.slot = 'items';
 		this.append(container);
-		this.shadowRoot.append(template);
+		this.shadowRoot.appendChild(document.importNode(template, true));
+		this.shadowRoot.appendChild(icons.cloneNode(true));
 		if (Array.isArray(items)) {
 			this.addItem(...items);
 		}

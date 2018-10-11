@@ -5,9 +5,11 @@ export default class LoginForm extends HTMLElement {
 	constructor() {
 		super();
 		this.hidden = true;
+		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg');
 		this.attachShadow({mode: 'open'});
 		const template = document.getElementById('login-template');
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
+		this.shadowRoot.appendChild(icons.cloneNode(true));
 
 		if (this.hasAttribute('action')) {
 			this.form.action = this.getAttribute('action');

@@ -5,8 +5,8 @@ export default class VehicleElement extends HTMLElement {
 	constructor() {
 		super();
 		this.classList.add('online-only');
+		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg');
 		const template = document.getElementById('vehicle-element-template');
-		const icons = document.querySelector('svg[hidden]');
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
 		this.shadowRoot.appendChild(icons.cloneNode(true));
