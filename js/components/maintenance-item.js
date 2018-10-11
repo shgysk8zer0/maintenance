@@ -7,10 +7,12 @@ export default class MaintenanceItem extends HTMLElement {
 		super();
 		this.dataset.status = 'incomplete';
 		this.classList.add('block', 'card');
+		const icons = document.querySelector('svg[hidden]');
 
 		const template = document.getElementById('maintenance-item-template');
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
+		this.shadowRoot.appendChild(icons.cloneNode(true));
 		this.dateMeter.value = Date.parse(new Date());
 
 		$('[data-action="delete"]', this.shadowRoot).click(async () => {

@@ -6,8 +6,10 @@ export default class VehicleElement extends HTMLElement {
 		super();
 		this.classList.add('online-only');
 		const template = document.getElementById('vehicle-element-template');
+		const icons = document.querySelector('svg[hidden]');
 		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
+		this.shadowRoot.appendChild(icons.cloneNode(true));
 		document.addEventListener('logout', () => this.remove());
 	}
 
