@@ -3,10 +3,11 @@ import {importLink} from '../std-js/functions.js';
 export default class VehicleSearch extends HTMLFormElement {
 	constructor() {
 		super();
+		this.hidden = true;
 		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg').cloneNode(true);
 		const template = document.getElementById('vehicle-search-template');
-		console.log({icons, template});
-		this.attachShadow({mode: 'open'});
+		document.addEventListener('login', () => this.hidden = false);
+		document.addEventListener('logout', () => this.hidden = true);
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
 		this.shadowRoot.appendChild(icons.cloneNode(true));
 		this.addEventListener('submit', event => event.preventDefault());
