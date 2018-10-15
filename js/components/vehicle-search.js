@@ -6,10 +6,12 @@ export default class VehicleSearch extends HTMLFormElement {
 		this.hidden = true;
 		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg').cloneNode(true);
 		const template = document.getElementById('vehicle-search-template');
-		document.addEventListener('login', () => this.hidden = false);
-		document.addEventListener('logout', () => this.hidden = true);
+		this.attachShadow({mode: 'open'});
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
 		this.shadowRoot.appendChild(icons.cloneNode(true));
+
+		document.addEventListener('login', () => this.hidden = false);
+		document.addEventListener('logout', () => this.hidden = true);
 		this.addEventListener('submit', event => event.preventDefault());
 		this.input.addEventListener('input', event => {
 			const vehicles = Array.from(document.querySelectorAll('vehicle-element'));
