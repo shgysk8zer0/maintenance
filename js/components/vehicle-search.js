@@ -4,6 +4,9 @@ export default class VehicleSearch extends HTMLFormElement {
 	constructor() {
 		super();
 		this.hidden = true;
+		customElements.whenDefined('login-form').then(() => {
+			this.hidden = ! customElements.get('login-fomr').loggedIn;
+		});
 		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg').cloneNode(true);
 		const template = document.getElementById('vehicle-search-template');
 		this.attachShadow({mode: 'open'});
