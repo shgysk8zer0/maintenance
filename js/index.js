@@ -9,6 +9,7 @@ import './components/maintenance-item.js';
 import './components/login-form.js';
 import './components/current-year.js';
 import './components/copy-button.js';
+import './components/vehicle-search.js';
 
 registerServiceWorker('service-worker.js');
 
@@ -18,7 +19,7 @@ importLink('icons').then(icons => {
 	document.body.append(document.importNode(svg, true));
 }).catch(console.error);
 
-ready('login-button', 'logout-button').then(async () => {
+ready('login-button', 'logout-button', 'vehicle-search').then(async () => {
 	document.documentElement.classList.replace('no-js', 'js');
 	window.addEventListener('offline', () => {
 		document.documentElement.classList.add('offline');

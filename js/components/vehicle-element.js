@@ -48,7 +48,7 @@ export default class VehicleElement extends HTMLElement {
 	}
 
 	set image(img) {
-		const image = new Image(128, 180);
+		const image = new Image(256, 256);
 		image.slot = 'thumbnail';
 		image.src = new URL(img, IMAGES_DIR);
 		image.alt = this.name;

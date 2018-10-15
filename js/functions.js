@@ -69,6 +69,9 @@ async function fillMaintenanceTable(url) {
 		// await customElements.whenDefined('maintenance-table');
 		await customElements.whenDefined('vehicle-element');
 		await customElements.whenDefined('maintenance-item');
+		await customElements.whenDefined('vehicle-search');
+		const search = document.querySelector('vehicle-search, form[is="vehicle-search"]');
+		search.vehicles = vehicles;
 
 		const els = vehicles.map(vehicle => {
 			const el = new VehicleElement();
