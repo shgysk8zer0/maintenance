@@ -1,0 +1,12 @@
+#header {
+	background: #ACB1FF;
+	padding: 0.2rem;
+}
+
+#header vehicle-search {
+	align-self: flex-end;
+}
+
+#header vehicle-search > svg {
+	display: none;
+}

@@ -4,6 +4,7 @@ import {importLink} from '../std-js/functions.js';
 export default class VehicleElement extends HTMLElement {
 	constructor() {
 		super();
+		this.hidden = true;
 		this.classList.add('online-only');
 		const icons = document.querySelector('link[rel="import"][name="icons"]').import.querySelector('svg');
 		const template = document.getElementById('vehicle-element-template');
@@ -11,6 +12,45 @@ export default class VehicleElement extends HTMLElement {
 		this.shadowRoot.appendChild(document.importNode(template.content, true));
 		this.shadowRoot.appendChild(icons.cloneNode(true));
 		document.addEventListener('logout', () => this.remove());
+		this.fadeIn();
+	}
+
+	async fadeOut({
+		duration = 400,
+		delay = 0,
+		easing = 'ease-in-out',
+	} = {}) {
+		const anim = this.animate([{
+			opacity: 1,
+		}, {
+			opacity: 0,
+		}], {
+			duration,
+			easing,
+			delay,
+			fill: 'both',
+		});
+		await anim.finished;
+		this.hidden = true;
+	}
+
+	async fadeIn({
+		duration = 400,
+		delay = 0,
+		easing = 'ease-in-out',
+	} = {}) {
+		const anim = this.animate([{
+			opacity: 0,
+		}, {
+			opacity: 1,
+		}], {
+			duration,
+			easing,
+			delay,
+			fill: 'both',
+		});
+		this.hidden = false;
+		await anim.finished;
 	}
 
 	set name(name) {
@@ -96,6 +136,10 @@ export default class VehicleElement extends HTMLElement {
 
 	get slotNames() {
 		return this.slots.map(slot => slot.name);
+	}
+
+	matches(name) {
+		return this.name.toLowerCase().includes(name.toLowerCase());
 	}
 
 	hasSlot(name) {

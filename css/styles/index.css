@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import url("../core-css/viewport.css");
 @import url("./vars.css");
+@import url("./layout.css");
 @import url("../core-css/rem.css");
 @import url("../core-css/element.css");
 @import url("../core-css/class-rules.css");

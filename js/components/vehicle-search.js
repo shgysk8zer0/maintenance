@@ -15,23 +15,55 @@ export default class VehicleSearch extends HTMLFormElement {
 
 		document.addEventListener('login', () => this.hidden = false);
 		document.addEventListener('logout', () => this.hidden = true);
+
 		this.addEventListener('submit', event => event.preventDefault());
-		this.input.addEventListener('input', event => {
-			const vehicles = Array.from(document.querySelectorAll('vehicle-element'));
-			if (event.target.value === '') {
-				vehicles.forEach(vehicle => vehicle.hidden = false);
-			} else {
-				vehicles.forEach(vehicle => {
-					vehicle.hidden = !vehicle.name.toLowerCase().includes(event.target.value.toLowerCase());
-				});
-			}
-		}, {
+		this.resetButton.addEventListener('click', () => this.clear(), {pasive: true});
+		this.input.addEventListener('input', event => this.search(event.target.value), {
 			passive: true,
 		});
 	}
 
+	clear() {
+		this.input.value = '';
+		this.misses.forEach(vehicle => vehicle.fadeIn());
+	}
+
+	search(name) {
+		if (name === '') {
+			this.misses.forEach(vehicle => {
+				vehicle.fadeIn();
+			});
+		} else {
+			this.vehicleElements.forEach(vehicle => {
+				if (vehicle.matches(name)) {
+					if (vehicle.hidden) {
+						vehicle.fadeIn();
+					}
+				} else if (! vehicle.hidden) {
+					vehicle.fadeOut();
+				}
+			});
+		}
+	}
+
+	get matches() {
+		return this.vehicleElements.filter(vehicle => ! vehicle.hidden);
+	}
+
+	get misses() {
+		return this.vehicleElements.filter(vehicle => vehicle.hidden);
+	}
+
+	get vehicleElements() {
+		return Array.from(document.querySelectorAll('vehicle-element'));
+	}
+
 	get input() {
 		return this.shadowRoot.querySelector('input[type="search"]');
+	}
+
+	get resetButton() {
+		return this.shadowRoot.querySelector('[type="reset"]');
 	}
 
 	get vehicles() {

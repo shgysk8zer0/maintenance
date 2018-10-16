@@ -17,6 +17,9 @@
 	--main-font: "Roboto";
 	--button-reject-background: rgba(209, 59, 59, 1);
 	--button-confirm-background: rgba(35, 195, 35, 1);
+
+	--header-height: 2.5rem;
+	--footer-height: 8rem;
 }
 
 .btn-reject {

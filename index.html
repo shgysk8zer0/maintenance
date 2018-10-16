@@ -24,7 +24,7 @@
 		<link rel="dns-prefetch" href="https://www.vrmtel.net" />
 	</head>
 	<body class="background-primary color default font-main border-box smooth-scroll grid">
-		<header id="header">
+		<header id="header" class="sticky top z-3 shadow flex row no-wrap">
 			<button type="button" title="Sign In" is="login-button" hidden="">
 				<svg class="current-color icon">
 					<use xlink:href="#sign-in" />
@@ -35,8 +35,9 @@
 					<use xlink:href="#sign-out" />
 				</svg>
 			</button>
+			<vehicle-search class="inline-block"></vehicle-search>
 		</header>
-		<main id="main">
+		<main id="main" class="overflow-y-auto">
 			<noscript class="card block shadow center">
 				<h2>JavaScript support is required</h2>
 				<p>Please enable JavaScript in your browser.</p>
@@ -48,7 +49,6 @@
 					</svg>
 				</span>
 			</div>
-			<vehicle-search></vehicle-search>
 		</main>
 		<footer id="footer" class="color-alt">
 			<span>&copy;</span>
