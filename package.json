@@ -2,13 +2,27 @@
   "name": "maintenance",
   "version": "1.0.0",
   "description": "",
+  "config": {
+    "server": {
+      "port": 8000
+    },
+    "dirs": {
+      "img": "img/",
+      "css": "css/",
+      "js": "js/"
+    },
+    "icons": {
+      "config": "icons.csv",
+      "dest": "icons.svg"
+    }
+  },
   "scripts": {
     "postinstall": "npm run build",
-    "start": "python -m SimpleHTTPServer 8000",
+    "start": "python -m SimpleHTTPServer ${npm_package_config_server_port}",
     "build": "npm run build:icons",
-    "build:icons": "svg-sprite-generate -c icons.csv -o img/icons.svg",
-    "lint:js": "eslint js/",
-    "lint:css": "stylelint css/",
+    "build:icons": "svg-sprite-generate -c ${npm_package_config_icons_config} -o ${npm_package_config_dirs_img}${npm_package_config_icons_dest}",
+    "lint:js": "eslint ${npm_package_config_dirs_js}",
+    "lint:css": "stylelint ${npm_package_config_dirs_css}",
     "test": "npm run lint:js && npm run lint:css"
   },
   "author": "Chris Zuber <shgysk8zer0@gmail.com>",
