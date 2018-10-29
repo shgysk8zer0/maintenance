@@ -1,4 +1,4 @@
-import {$, importLink} from '../std-js/functions.js';
+import {$} from '../std-js/functions.js';
 import {confirm, alert} from '../std-js/asyncDialog.js';
 import {createSlot, validDate} from '../functions.js';
 
@@ -233,7 +233,7 @@ export default class MaintenanceItem extends HTMLElement {
 	}
 }
 
-importLink('MaintenanceItem').then(content => {
-	document.body.append(...content.body.children);
+$('link[name="MaintenanceItem"]').import('template').then(content => {
+	document.body.append(content);
 	customElements.define('maintenance-item', MaintenanceItem);
 }).catch(console.error);

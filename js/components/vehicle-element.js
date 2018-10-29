@@ -1,5 +1,5 @@
 import {IMAGES_DIR} from '../consts.js';
-import {importLink} from '../std-js/functions.js';
+import {$} from '../std-js/functions.js';
 
 export default class VehicleElement extends HTMLElement {
 	constructor() {
@@ -169,7 +169,7 @@ export default class VehicleElement extends HTMLElement {
 	}
 }
 
-importLink('VehicleElement').then(content => {
-	document.body.append(...content.body.children);
+$('link[name="VehicleElement"]').import('template').then(content => {
+	document.body.append(content);
 	customElements.define('vehicle-element', VehicleElement);
 }).catch(console.error);

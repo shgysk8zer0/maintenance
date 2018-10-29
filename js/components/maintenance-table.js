@@ -1,5 +1,5 @@
 import MaintenanceItem from './maintenance-item.js';
-import {importLink} from '../std-js/functions.js';
+import {$} from '../std-js/functions.js';
 
 export default class MaintenanceTable extends HTMLElement {
 	constructor(items = []) {
@@ -104,7 +104,7 @@ export default class MaintenanceTable extends HTMLElement {
 	}
 }
 
-importLink('MaintenanceTable').then(content => {
-	document.body.append(...content.body.children);
+$('link[name="MaintenanceTable"]').import('template').then(content => {
+	document.body.append(content);
 	customElements.define('maintenance-Table', MaintenanceTable);
 }).catch(console.error);

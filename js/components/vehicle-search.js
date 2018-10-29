@@ -1,4 +1,4 @@
-import {importLink} from '../std-js/functions.js';
+import {$} from '../std-js/functions.js';
 
 export default class VehicleSearch extends HTMLFormElement {
 	constructor() {
@@ -83,7 +83,7 @@ export default class VehicleSearch extends HTMLFormElement {
 	}
 }
 
-importLink('VehicleSearch').then(content => {
-	document.body.append(...content.body.children);
+$('link[name="VehicleSearch"]').import('template').then(content => {
+	document.body.append(content);
 	customElements.define('vehicle-search', VehicleSearch, {extends: 'form'});
 }).catch(console.error);

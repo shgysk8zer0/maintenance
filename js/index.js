@@ -44,6 +44,8 @@ ready('login-button', 'logout-button', 'vehicle-search').then(async () => {
 
 	document.addEventListener('logout', () => sessionStorage.clear());
 
+	$('[name="icons"]').import().then(icons => document.body.append(icons));
+
 	if (sessionStorage.hasOwnProperty('token')) {
 		init();
 	}
